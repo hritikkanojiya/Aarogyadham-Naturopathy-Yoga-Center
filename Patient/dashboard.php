@@ -50,7 +50,7 @@
 
             <ul class="nav user-menu">
                 <li class="nav-item dropdown has-arrow main-drop ml-md-3">
-                    <a class=" dropdown-item" href="logout.php"><i class="feather-power" style="color: red; font-weight:bold"></i></a>
+                    <a class="dropdown-item" href="logout.php"><i class="feather-power" style="color: red; font-weight:bold"></i></a>
                 </li>
             </ul>
 
