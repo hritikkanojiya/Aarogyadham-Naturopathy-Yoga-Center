@@ -102,7 +102,6 @@ if (isset($_POST['submit'])) {
             </ul>
 
         </div>
-<<<<<<< HEAD
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -275,10 +274,6 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
         </div>
-=======
-
-        <?= include('../assets/php/sidebar.php'); ?>
->>>>>>> 1da72892b149c75383d76bf546a1759a16fbea86
 
         <div class="page-wrapper">
             <div class="content container-fluid">
