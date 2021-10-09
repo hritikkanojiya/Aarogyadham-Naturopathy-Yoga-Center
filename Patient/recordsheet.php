@@ -1,7 +1,6 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
-echo '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
 
 $gender = $_SESSION['gender'];
 $ID = $_SESSION['activeUserID'];
@@ -9,7 +8,6 @@ $ID = $_SESSION['activeUserID'];
 $activeUserData = "SELECT * FROM `patientregistration` WHERE `id` = '$ID'";
 $activeUserDataResult = mysqli_query($naturopathyCon, $activeUserData);
 $activeUserDataResultArray = mysqli_fetch_array($activeUserDataResult);
-// print_r($activeUserDataResultArray);
 
 if (isset($_POST['submit'])) {
     $fullname = $_POST['fullName'];
@@ -37,20 +35,18 @@ if (isset($_POST['submit'])) {
     } else {
         $dataInsert = FALSE;
     }
-
-    echo $dataInsert;
 }
+
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Hospital - Patient Details</title>
+    <title>Hospital</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -63,9 +59,12 @@ if (isset($_POST['submit'])) {
 
     <link rel="stylesheet" href="../assets/css/feather.css">
 
-    <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
-
     <link rel="stylesheet" href="../assets/css/style.css">
+
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -75,10 +74,10 @@ if (isset($_POST['submit'])) {
         <div class="header">
 
             <div class="header-left">
-                <a href="dashboard.php.html" class="logo">
+                <a class="logo text-center">
                     <img src="../assets/img/logo-favicon.png" alt="Logo">
                 </a>
-                <a href="dashboard.php.html" class="logo logo-small">
+                <a href="patientDashboard.php" class="logo logo-small">
                     <img src="../assets/img/logo-favicon.png" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -96,14 +95,14 @@ if (isset($_POST['submit'])) {
             <a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i>
             </a>
 
-
             <ul class="nav user-menu">
                 <li class="nav-item dropdown has-arrow main-drop ml-md-3">
-                    <a class=" dropdown-item" href="logout.php"><i class="feather-power" style="color: red; font-weight:bold"></i></a>
+                    <a class="dropdown-item" href="logout.php"><i class="feather-power" style="color: red; font-weight:bold"></i></a>
                 </li>
             </ul>
 
         </div>
+<<<<<<< HEAD
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
@@ -276,6 +275,10 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
         </div>
+=======
+
+        <?= include('../assets/php/sidebar.php'); ?>
+>>>>>>> 1da72892b149c75383d76bf546a1759a16fbea86
 
         <div class="page-wrapper">
             <div class="content container-fluid">
@@ -286,8 +289,8 @@ if (isset($_POST['submit'])) {
                             <div class="d-flex align-items-center">
                                 <h5 class="page-title">Dashboard</h5>
                                 <ul class="breadcrumb ml-2">
-                                    <li class="breadcrumb-item"><a href="dashboard.php.html"><i class="fas fa-home"></i></a></li>
-                                    <li class="breadcrumb-item"><a href="dashboard.php.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard.php"><i class="fas fa-home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Patient Details</li>
                                 </ul>
                             </div>
@@ -479,100 +482,16 @@ if (isset($_POST['submit'])) {
         </div>
 
 
-        <div class="notifications">
-            <div class="topnav-dropdown-header">
-                <span class="notification-title">Notifications</span>
-                <a href="javascript:void(0)" class="clear-noti"> <i class="feather-x-circle"></i> </a>
-            </div>
-            <div class="noti-content">
-                <ul class="notification-list">
-                    <li class="notification-message">
-                        <a href="#">
-                            <div class="media">
-                                <span class="avatar">
-                                    <img alt="" src="../assets/img/profiles/avatar-02.jpg" class="rounded-circle">
-                                </span>
-                                <div class="media-body">
-                                    <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                                    <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="notification-message">
-                        <a href="#">
-                            <div class="media">
-                                <span class="avatar">
-                                    <img alt="" src="../assets/img/profiles/avatar-03.jpg" class="rounded-circle">
-                                </span>
-                                <div class="media-body">
-                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="notification-message">
-                        <a href="#">
-                            <div class="media">
-                                <span class="avatar">
-                                    <img alt="" src="../assets/img/profiles/avatar-06.jpg" class="rounded-circle">
-                                </span>
-                                <div class="media-body">
-                                    <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="notification-message">
-                        <a href="#">
-                            <div class="media">
-                                <span class="avatar">
-                                    <img alt="" src="../assets/img/profiles/avatar-17.jpg" class="rounded-circle">
-                                </span>
-                                <div class="media-body">
-                                    <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-                                    <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="notification-message">
-                        <a href="#">
-                            <div class="media">
-                                <span class="avatar">
-                                    <img alt="" src="../assets/img/profiles/avatar-13.jpg" class="rounded-circle">
-                                </span>
-                                <div class="media-body">
-                                    <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-                                    <p class="noti-time"><span class="notification-time">2 days ago</span></p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="topnav-dropdown-footer">
-                <a href="javascript:void(0);">View all Notifications</a>
-            </div>
-        </div>
-
     </div>
-
-
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <script src="../assets/plugins/select2/js/select2.min.js"></script>
+    <script src="../assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
+    <script src="../assets/js/calander.js"></script>
 
     <script src="../assets/js/script.js"></script>
-
-
 </body>
-
 
 </html>
