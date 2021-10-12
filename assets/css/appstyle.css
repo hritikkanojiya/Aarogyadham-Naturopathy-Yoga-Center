@@ -16,13 +16,13 @@
 
 /* Above Medium */
 @media (min-width: 767.98px) {
-  .form-group > label {
+  /* .form-group > label {
     font-size: 1.14rem;
   }
 
   label {
     font-size: 1.15rem;
-  }
+  } */
 }
 
 /* Below Medium */

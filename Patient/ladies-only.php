@@ -154,12 +154,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Regular
+                                                                <input type="radio" name="Q1"> Regular
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Irregular
+                                                                <input type="radio" name="Q1"> Irregular
                                                             </label>
                                                         </div>
                                                     </div>
@@ -168,7 +168,7 @@ include('../assets/php/db_conn.php');
                                             <div class="form-group">
                                                 <label class="" for="">How Irregular ?</label>
                                                 <div class="">
-                                                    <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                    <textarea rows="3" type="text" class="form-control" name="Q2"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -177,17 +177,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Less
+                                                                <input type="radio" name="Q3"> Less
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Moderate
+                                                                <input type="radio" name="Q3"> Moderate
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Excess
+                                                                <input type="radio" name="Q3"> Excess
                                                             </label>
                                                         </div>
                                                     </div>
@@ -199,12 +199,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> With
+                                                                <input type="radio" name="Q4"> With
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Without foul smell
+                                                                <input type="radio" name="Q4"> Without foul smell
                                                             </label>
                                                         </div>
                                                     </div>
@@ -216,12 +216,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q5"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q5"> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -230,7 +230,7 @@ include('../assets/php/db_conn.php');
                                             <div class="form-group">
                                                 <label class="" for="">How many days ?</label>
                                                 <div class="">
-                                                    <input type="text" class="form-control" name="radio">
+                                                    <input type="text" class="form-control" name="Q6">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -239,12 +239,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q7"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q7"> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -253,17 +253,17 @@ include('../assets/php/db_conn.php');
                                             <div class="form-group">
                                                 <label class="" for="">Do you have pain before or during menses ?</label>
                                                 <div class="">
-                                                    <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                    <textarea rows="3" type="text" class="form-control" name="Q8"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="" for="">Any other trouble during menses ? </label>
-                                                <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="Q9"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="" for="">Any issues regarding menses in the past ?</label>
                                                 <div class="">
-                                                    <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                    <textarea rows="3" type="text" class="form-control" name="Q10"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -281,7 +281,7 @@ include('../assets/php/db_conn.php');
                                         <div class="col-12">
                                             <div class="form-group ">
                                                 <label class="" for=""> Surgeries ?</label>
-                                                <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="Q11"></textarea>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-md-6" for=""> Maritial Status ?</label>
@@ -289,12 +289,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Married
+                                                                <input type="radio" name="Q12"> Married
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Unmarried
+                                                                <input type="radio" name="Q12"> Unmarried
                                                             </label>
                                                         </div>
                                                     </div>
@@ -303,42 +303,42 @@ include('../assets/php/db_conn.php');
                                             <div class="form-group row">
                                                 <label class="col-md-6" for="">Date of Marriage ?</label>
                                                 <div class="col-md-6">
-                                                    <input type="date" class="form-control" name="radio">
+                                                    <input type="date" class="form-control" name="Q13">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label class="" for=""> Pregnancy (No. and Year)</label>
-                                                <input type="text" class="form-control" name="">
+                                                <input type="text" class="form-control" name="Q14">
                                             </div>
                                             <div class="form-group ">
                                                 <label class="" for=""> Delivery (No. and Year)</label>
-                                                <input type="text" class="form-control" name="">
+                                                <input type="text" class="form-control" name="Q15">
                                             </div>
                                             <div class="form-group ">
                                                 <label class="" for=""> Miscarriage (No. and Year)</label>
-                                                <input type="text" class="form-control" name="">
+                                                <input type="text" class="form-control" name="Q16">
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-md-4">
                                                     <label class="" for=""> Children</label>
-                                                    <input type="text" class="form-control" name="">
+                                                    <input type="text" class="form-control" name="Q17">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="" for=""> Sons</label>
-                                                    <input type="text" class="form-control" name="">
+                                                    <input type="text" class="form-control" name="Q18">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="" for=""> Daughters</label>
-                                                    <input type="text" class="form-control" name="">
+                                                    <input type="text" class="form-control" name="Q19">
                                                 </div>
                                             </div>
                                             <div class="form-group ">
                                                 <label class="" for=""> Method used for Family planning ?</label>
-                                                <input type="text" class="form-control" name="">
+                                                <input type="text" class="form-control" name="Q20">
                                             </div>
                                             <div class="form-group ">
                                                 <label class="" for=""> Any Other Information ?</label>
-                                                <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="Q21"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -348,7 +348,7 @@ include('../assets/php/db_conn.php');
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submit">Submit</button>
+                            <button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>
                         </div>
                     </div>
                 </form>
