@@ -1,41 +1,42 @@
-.homeMessage > .form-group > input,
-.homeMessage > .form-group > div > input {
-  display: inline;
-  width: 50px;
-  height: 35px;
-  margin-bottom: 10px;
+.homeMessage>.form-group>input,
+.homeMessage>.form-group>div>input {
+    display: inline;
+    width: 50px;
+    height: 35px;
+    margin-bottom: 10px;
 }
 
-.homeMessage > .form-group {
-  font-size: 1.15rem;
+.homeMessage>.form-group {
+    font-size: 1.15rem;
 }
 
-.card-title{
-  font-weight: bold;
+.card-title {
+    font-weight: bold;
 }
+
 
 /* Above Medium */
-@media (min-width: 767.98px) {
-  .form-group > label {
-    font-size: 1.14rem;
-  }
 
-  label {
-    font-size: 1.15rem;
-  }
+@media (min-width: 767.98px) {
+    /* .form-group > label {
+    font-size: 1.14rem;
+  } */
+    /* label {
+        font-size: 1.15rem;
+    } */
 }
 
+
 /* Below Medium */
+
 @media (max-width: 767.98px) {
-  .col-lg-4 {
-    margin-left: 0.5rem;
-  }
-
-  .homeMessage > .form-group {
-    font-size: 1rem;
-  }
-
-  ol{
-    font-size: 1rem;
-  }
+    .col-lg-4 {
+        margin-left: 0.5rem;
+    }
+    .homeMessage>.form-group {
+        font-size: 1rem;
+    }
+    ol {
+        font-size: 1rem;
+    }
 }

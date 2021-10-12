@@ -1,6 +1,10 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
+
+$patientGender = $_SESSION['patientGender'];
+$patientFullName = $_SESSION['patientFullName'];
+$patientUserId = $_SESSION['patientUserId'];
 ?>
 
 
@@ -78,8 +82,11 @@ include('../assets/php/db_conn.php');
                         </li>
                         <li class="active"><a href="questionnaire.php"><i class="feather-activity"></i> <span class="shape1"></span><span class="shape2"></span><span>Health Questionnaire</span></a>
                         </li>
-                        <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
-                        </li>
+                        <?php
+                        if ($patientGender == 'Female') { ?>
+                            <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
+                            </li>
+                        <?php } ?>
                         <li class=""><a href="physicalExam.php"><i class="feather-edit-3"></i> <span>Physical Examination</span></a>
                         </li>
                         <li class=""><a href="reports.php"><i class="feather-folder"></i> <span>Reports Data</span></a>
@@ -155,17 +162,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q1"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q1"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q1"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -177,12 +184,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q2"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q2"> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -194,12 +201,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Nothing
+                                                                <input type="radio" name="Q3"> Nothing
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Some Medicine
+                                                                <input type="radio" name="Q3"> Some Medicine
                                                             </label>
                                                         </div>
                                                     </div>
@@ -211,17 +218,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Always
+                                                                <input type="radio" name="Q4"> Always
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Sometimes
+                                                                <input type="radio" name="Q4"> Sometimes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Rarely
+                                                                <input type="radio" name="Q4"> Rarely
                                                             </label>
                                                         </div>
                                                     </div>
@@ -233,17 +240,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q5"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q5"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q5"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -255,12 +262,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Deep
+                                                                <input type="radio" name="Q6"> Deep
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Restless
+                                                                <input type="radio" name="Q6"> Restless
                                                             </label>
                                                         </div>
                                                     </div>
@@ -272,17 +279,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q7"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q7"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q7"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -294,17 +301,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q8"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q8"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q8"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -316,17 +323,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q9"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q9"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q9"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -338,17 +345,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q10"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q10"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q10"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -360,17 +367,17 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q11"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q11"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Can't Say
+                                                                <input type="radio" name="Q11"> Can't Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -382,12 +389,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q12"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q12"> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -399,12 +406,12 @@ include('../assets/php/db_conn.php');
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> Yes
+                                                                <input type="radio" name="Q13"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="radio"> No
+                                                                <input type="radio" name="Q13"> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -427,25 +434,25 @@ include('../assets/php/db_conn.php');
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Breakfast</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q14" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Evening Snacks</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q15" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Lunch</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q16" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Dinner</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q17" id="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -464,19 +471,19 @@ include('../assets/php/db_conn.php');
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">First</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q18" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Second</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q19" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Third</label>
-                                                        <input type="time" class="form-control" name="" id="">
+                                                        <input type="time" class="form-control" name="Q20" id="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -495,7 +502,7 @@ include('../assets/php/db_conn.php');
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Please Elaborate</label>
-                                                        <textarea type="text" rows="2" class="form-control" name="" id=""></textarea>
+                                                        <textarea type="text" rows="2" class="form-control" name="Q21" id=""></textarea>
                                                     </div>
                                                 </div>
                                             </div>
