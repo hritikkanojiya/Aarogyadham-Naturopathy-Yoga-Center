@@ -1,12 +1,11 @@
 <?php
 session_start();
-if (isset($_SESSION['activeUserID'])) {
+if (isset($_SESSION['patientSessionActive'])) {
     header('location: dashboard.php');
 }
-$error = FALSE;
 include('../assets/php/db_conn.php');
-echo '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
 
+$error = FALSE;
 if (isset($_POST['login'])) {
     $phone = $_POST['phoneno'];
     $password = $_POST['password'];
@@ -14,8 +13,11 @@ if (isset($_POST['login'])) {
     $sql_result = mysqli_query($naturopathyCon, $sql);
     $sql_result_array = mysqli_fetch_array($sql_result);
     if (isset($sql_result_array['id'])) {
-        $_SESSION['gender'] = $sql_result_array['gender'];
-        $_SESSION['activeUserID'] = $sql_result_array['id'];
+        $_SESSION['patientGender'] = $sql_result_array['gender'];
+        $_SESSION['patientFullName'] = $sql_result_array['fullName'];
+        $_SESSION['patientUserId'] = $sql_result_array['id'];
+        $_SESSION['regdNo'] = $sql_result_array['regdNo'];
+        $_SESSION['patientSessionActive'] = True;
         header('location: dashboard.php');
     } else {
         $error = TRUE;
@@ -42,6 +44,7 @@ if (isset($_POST['login'])) {
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>

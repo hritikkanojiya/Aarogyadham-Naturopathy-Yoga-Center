@@ -1,3 +1,5 @@
 <?php
 // Redirect to Patient Module
-header('location:Patient/');
+// header('location:Patient/');
+echo "Hello";
+?>

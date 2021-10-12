@@ -1,13 +1,13 @@
 <?php
 session_start();
-if (isset($_SESSION['activeUserID'])) {
+if (isset($_SESSION['patientSessionActive'])) {
     header('location: dashboard.php');
 }
 include('../assets\php\db_conn.php');
-echo '<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>';
-$phone_found = FALSE;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$phone_found = False;
+
+if (isset($_POST['register'])) {
     $fullName = $_POST['fullName'];
     $gender = $_POST['gender'];
     $phone = $_POST['phone'];
@@ -16,14 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone_exist_result = mysqli_query($naturopathyCon, $phone_exist);
     $phone_exist_result_data = mysqli_fetch_array($phone_exist_result);
     if ($phone_exist_result_data['total_phone'] > 0) {
-        $phone_found = TRUE;
+        $phone_found = True;
     } else {
-        $sql = "INSERT INTO `patientregistration` (`id`, `fullName`, `gender`, `phone`, `password`) VALUES (NULL, '$fullName', '$gender', '$phone', '$password')";
+        $randNo = mt_rand(1000,9999);
+        $regdNo = 'ANYC'.$randNo;
+        $sql = "INSERT INTO `patientregistration` (`regdNo`,`fullName`, `gender`, `phone`, `password`) VALUES ('$regdNo','$fullName', '$gender', '$phone', '$password')";
         $sql_result = mysqli_query($naturopathyCon, $sql);
-        if ($sql_result == TRUE) {
-            $_SESSION['gender'] = $gender;
-            $last_id = mysqli_insert_id($naturopathyCon);
-            $_SESSION['activeUserID'] = $last_id;
+        if ($sql_result == True) {
+            $_SESSION['patientGender'] = $gender;
+            $_SESSION['patientFullName'] = $fullName;
+            $_SESSION['patientUserId'] = mysqli_insert_id($naturopathyCon);
+            $_SESSION['patientSessionActive'] = True;
             header('location:dashboard.php');
         }
     }
@@ -46,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -102,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input class="form-control" type="password" id="password" name="password" minlength="6" maxlength="16" required>
                                     </div>
                                     <div class="form-group mb-0 text-center">
-                                        <button class="btn btn-md btn-primary" type="submit">Register</button>
+                                        <button class="btn btn-md btn-primary" type="submit" name="register">Register</button>
                                     </div>
                             </form>
 
