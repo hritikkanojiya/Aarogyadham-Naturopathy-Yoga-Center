@@ -13,7 +13,7 @@ if (isset($_SESSION['patientSessionActive'])) {
     $activePatientDataResult = mysqli_fetch_array($activePatientData);
 
     if (isset($_POST['submit'])) {
-        $fullname = $_POST['fullName'];
+        $fullname = $patientFullName;
         $age = $_POST['age'];
         $gender = $patientGender;
         $dob = $_POST['dob'];
@@ -65,7 +65,20 @@ if (isset($_SESSION['patientSessionActive'])) {
     </head>
 
     <body>
-
+        <?php
+        if ($dataInserted) {
+            echo "<script>
+                Swal.fire({
+                icon: 'success',
+                title: 'Data Inserted!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                })
+            </script>";
+            $error = FALSE;
+        }
+        ?>
         <div class="main-wrapper">
 
             <div class="header">
@@ -154,7 +167,7 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label class="col-form-label" for="fullName">Full Name</label>
-                                                            <input type="text" class="form-control" id="fullName" name="fullName" value="<?= $activePatientDataResult['fullName']; ?>" required>
+                                                            <input type="text" class="form-control" id="fullName" value="<?= $activePatientDataResult['fullName']; ?>" required disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">

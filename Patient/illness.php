@@ -1,6 +1,10 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
+
+$patientGender = $_SESSION['patientGender'];
+$patientFullName = $_SESSION['patientFullName'];
+$patientUserId = $_SESSION['patientUserId'];
 ?>
 
 
@@ -79,8 +83,11 @@ include('../assets/php/db_conn.php');
                         <li class="active"><a href="illness.php"><i class="feather-info"></i> <span class="shape1"></span><span class="shape2"></span><span>Illness Information</span></a>
                         <li class=""><a href="questionnaire.php"><i class="feather-activity"></i> <span>Health Questionnaire</span></a>
                         </li>
-                        <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
-                        </li>
+                        <?php
+                        if ($patientGender == 'Female') { ?>
+                            <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
+                            </li>
+                        <?php } ?>
                         <li class=""><a href="physicalExam.php"><i class="feather-edit-3"></i> <span>Physical Examination</span></a>
                         </li>
                         <li class=""><a href="reports.php"><i class="feather-folder"></i> <span>Reports Data</span></a>
