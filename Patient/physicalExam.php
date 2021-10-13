@@ -1,6 +1,10 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
+
+$patientGender = $_SESSION['patientGender'];
+$patientFullName = $_SESSION['patientFullName'];
+$patientUserId = $_SESSION['patientUserId'];
 ?>
 
 
@@ -80,8 +84,11 @@ include('../assets/php/db_conn.php');
                         </li>
                         <li class=""><a href="questionnaire.php"><i class="feather-activity"></i> <span>Health Questionnaire</span></a>
                         </li>
-                        <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
-                        </li>
+                        <?php
+                        if ($patientGender == 'Female') { ?>
+                            <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
+                            </li>
+                        <?php } ?>
                         <li class="active"><a href="physicalExam.php"><i class="feather-edit-3"></i> <span class="shape1"></span><span class="shape2"></span><span>Physical Examination</span></a>
                         </li>
                         <li class=""><a href="reports.php"><i class="feather-folder"></i> <span>Reports Data</span></a>
@@ -154,13 +161,13 @@ include('../assets/php/db_conn.php');
                                                 <div class="form-group col-md-6">
                                                     <label class="" for="">Examination Date </label>
                                                     <div class="">
-                                                        <input type="date" class="form-control" name="radio">
+                                                        <input type="date" class="form-control" name="Q1">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label class="" for="">Height (cms)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q2" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,13 +176,13 @@ include('../assets/php/db_conn.php');
                                                     <div class="col-md-6">
                                                         <div class="">
                                                             <label class="">Chest (After Inhalation) in cms</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q3">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="">
                                                             <label class="">Chest (After Exhalation) in cms</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q4">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,7 +192,7 @@ include('../assets/php/db_conn.php');
                                             <div class="form-group">
                                                 <label class="" for="">Abdomen (Circumference) in cms</label>
                                                 <div class="">
-                                                    <input type="text" class="form-control" name="radio" placeholder="">
+                                                    <input type="text" class="form-control" name="Q5" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="form-group m-auto">
@@ -195,12 +202,12 @@ include('../assets/php/db_conn.php');
                                                         <div class="row justify-content-start">
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Normal
+                                                                    <input type="radio" name="Q6"> Normal
                                                                 </label>
                                                             </div>
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Flat
+                                                                    <input type="radio" name="Q6"> Flat
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -214,17 +221,17 @@ include('../assets/php/db_conn.php');
                                                         <div class="row justify-content-start">
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Fat
+                                                                    <input type="radio" name="Q7"> Fat
                                                                 </label>
                                                             </div>
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Medium
+                                                                    <input type="radio" name="Q7"> Medium
                                                                 </label>
                                                             </div>
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Thin
+                                                                    <input type="radio" name="Q7"> Thin
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -238,17 +245,17 @@ include('../assets/php/db_conn.php');
                                                         <div class="row justify-content-start">
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Vaat
+                                                                    <input type="radio" name="Q8"> Vaat
                                                                 </label>
                                                             </div>
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Pitta
+                                                                    <input type="radio" name="Q8"> Pitta
                                                                 </label>
                                                             </div>
                                                             <div class="radio mx-2">
                                                                 <label>
-                                                                    <input type="radio" name="radio"> Kafa
+                                                                    <input type="radio" name="Q8"> Kafa
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -275,22 +282,22 @@ include('../assets/php/db_conn.php');
                                                 <div class="row">
                                                     <div class="col-md-6 pb-2">
                                                         <label class="">Weight (Kg)</label>
-                                                        <input type="text" class="form-control" name="radio">
+                                                        <input type="text" class="form-control" name="Q9">
                                                     </div>
                                                     <div class="col-md-6 pb-2">
                                                         <label class="">Date</label>
-                                                        <input type="date" class="form-control" name="radio">
+                                                        <input type="date" class="form-control" name="Q10">
                                                     </div>
                                                 </div>
                                                 <h5 class="card-title">Second</h5>
                                                 <div class="row">
                                                     <div class="col-md-6 pb-2">
                                                         <label class="">Weight (Kg)</label>
-                                                        <input type="text" class="form-control" name="radio">
+                                                        <input type="text" class="form-control" name="Q11">
                                                     </div>
                                                     <div class="col-md-6 pb-2">
                                                         <label class="">Date</label>
-                                                        <input type="date" class="form-control" name="radio">
+                                                        <input type="date" class="form-control" name="Q12">
                                                     </div>
                                                 </div>
                                             </div>
@@ -313,19 +320,19 @@ include('../assets/php/db_conn.php');
                                                     <div class="col-md-4 pb-2">
                                                         <div class>
                                                             <label class="">Pulse</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q13">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 pb-2">
                                                         <div class="">
                                                             <label class="">B.P</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q14">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 pb-2">
                                                         <div class="">
                                                             <label class="">Date</label>
-                                                            <input type="date" class="form-control" name="radio">
+                                                            <input type="date" class="form-control" name="Q15">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -334,19 +341,19 @@ include('../assets/php/db_conn.php');
                                                     <div class="col-md-4 pb-2">
                                                         <div class="">
                                                             <label class="">Pulse</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q16">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 pb-2">
                                                         <div class="">
                                                             <label class="">B.P</label>
-                                                            <input type="text" class="form-control" name="radio">
+                                                            <input type="text" class="form-control" name="Q17">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 pb-2">
                                                         <div class="">
                                                             <label class="">Date</label>
-                                                            <input type="date" class="form-control" name="radio">
+                                                            <input type="date" class="form-control" name="Q18">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -368,7 +375,7 @@ include('../assets/php/db_conn.php');
                                         <div class="col-12">
                                             <div class="form-group mb-1">
                                                 <div class="table-responsive">
-                                                    <table class="table table-nowrap mb-0 datatable">
+                                                    <table class="table table-nowrap mb-0" id="remarkTable">
                                                         <thead>
                                                             <tr>
                                                                 <th>Sr.</th>
@@ -383,32 +390,47 @@ include('../assets/php/db_conn.php');
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>2</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>3</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>4</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>5</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>6</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
                                                             <tr>
-                                                                <td>1</td>
+                                                                <td>7</td>
+                                                                <td><input type="date" name="" class="form-control" id=""></td>
+                                                                <td><input type="text" name="" class="form-control" id=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>8</td>
+                                                                <td><input type="date" name="" class="form-control" id=""></td>
+                                                                <td><input type="text" name="" class="form-control" id=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>9</td>
+                                                                <td><input type="date" name="" class="form-control" id=""></td>
+                                                                <td><input type="text" name="" class="form-control" id=""></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>10</td>
                                                                 <td><input type="date" name="" class="form-control" id=""></td>
                                                                 <td><input type="text" name="" class="form-control" id=""></td>
                                                             </tr>
@@ -431,7 +453,7 @@ include('../assets/php/db_conn.php');
                                         <div class="col-12">
                                             <div class="form-group mb-0">
                                                 <label class="">Detailed Note</label>
-                                                <textarea class="form-control" name="" id="" rows="11"></textarea>
+                                                <textarea class="form-control" name="Q20" id="" rows="11"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -441,7 +463,7 @@ include('../assets/php/db_conn.php');
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submit">Submit</button>
+                            <button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>
                         </div>
                     </div>
                 </form>
@@ -463,6 +485,14 @@ include('../assets/php/db_conn.php');
     <script src="../assets/plugins/datatables/datatables.min.js"></script>
 
     <script src="../assets/js/script.js"></script>
+
+    <script>
+        $('#remarkTable').DataTable({
+            "ordering": false,
+        });
+
+        // $('')
+    </script>
 
 
 </body>

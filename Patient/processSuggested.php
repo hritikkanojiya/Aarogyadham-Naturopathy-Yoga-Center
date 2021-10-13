@@ -1,6 +1,10 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
+
+$patientGender = $_SESSION['patientGender'];
+$patientFullName = $_SESSION['patientFullName'];
+$patientUserId = $_SESSION['patientUserId'];
 ?>
 
 
@@ -79,8 +83,11 @@ include('../assets/php/db_conn.php');
                         </li>
                         <li class=""><a href="questionnaire.php"><i class="feather-activity"></i> <span>Health Questionnaire</span></a>
                         </li>
-                        <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
-                        </li>
+                        <?php
+                        if ($patientGender == 'Female') { ?>
+                            <li class=""><a href="ladies-only.php"><i class="feather-life-buoy"></i> <span>Ladies Details</span></a>
+                            </li>
+                        <?php } ?>
                         <li class=""><a href="physicalExam.php"><i class="feather-edit-3"></i> <span>Physical Examination</span></a>
                         </li>
                         <li class=""><a href="reports.php"><i class="feather-folder"></i> <span>Reports Data</span></a>
@@ -158,25 +165,25 @@ include('../assets/php/db_conn.php');
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q1" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Purak + Bhramari Rechak</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q2" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Suraya Mantra Japa</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q3" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Bharmari Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q4" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,49 +213,49 @@ include('../assets/php/db_conn.php');
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Jalaneti (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q5" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">L. S. P (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q6" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Vaman (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q7" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> F. S. P. (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q8" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Hot fomentation and Massage (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q9" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Local steam application (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q10" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Steambath (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q11" placeholder="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Tail / Sanjivan Basti (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="radio" placeholder="">
+                                                        <input type="text" class="form-control" name="Q12" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,11 +273,11 @@ include('../assets/php/db_conn.php');
                                     <div class="row">
                                         <div class="col-12 homeMessage">
                                             <div class="form-group">
-                                                Yognidra <input type="text" class="form-control" style="width:auto" name="" placeholder=""> daily
-                                                <input type="text" class="form-control" name="" placeholder=""> Times. Before sleep Omkar Jap daily
-                                                <input type="text" class="form-control" name="" placeholder=""> minutes.
+                                                Yognidra <input type="text" class="form-control" style="width:auto" name="Q13" placeholder=""> daily
+                                                <input type="text" class="form-control" name="Q14" placeholder=""> Times. Before sleep Omkar Jap daily
+                                                <input type="text" class="form-control" name="Q14" placeholder=""> minutes.
                                                 <div class="" style="display: inline-block;">
-                                                    ( <input type="text" class="form-control" style="height:35px;" name="" placeholder=""> times)
+                                                    ( <input type="text" class="form-control" style="height:35px;" name="Q16" placeholder=""> times)
                                                 </div>
                                                 hot foamatation after applying Sanjivan oil (Daily 2 times)
                                             </div>
@@ -299,7 +306,7 @@ include('../assets/php/db_conn.php');
                                                             <li>Plenty of Fruits / Leafy vegetables soup.</li>
                                                             <li>To consume more natural food.</li>
                                                             <li><label class="">Yogamrit Daily </label>
-                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="radio"> <label class=""> times (in lieu tea) </label>
+                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="Q17"> <label class=""> times (in lieu tea) </label>
                                                             </li>
                                                         </ol>
                                                     </div>
@@ -335,7 +342,7 @@ include('../assets/php/db_conn.php');
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submit">Submit</button>
+                            <button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>
                         </div>
                     </div>
                 </form>

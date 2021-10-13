@@ -49,7 +49,7 @@ if (isset($_POST['login'])) {
 
 <body>
     <?php
-    if ($error == TRUE) {
+    if ($error) {
         echo "<script>
                 Swal.fire({
                 icon: 'error',
