@@ -5,6 +5,64 @@ include('../assets/php/db_conn.php');
 $patientGender = $_SESSION['patientGender'];
 $patientFullName = $_SESSION['patientFullName'];
 $patientUserId = $_SESSION['patientUserId'];
+
+$dataInserted = FALSE;
+$dataUpdated = false;
+$updateData = False;
+
+$q1 = '';
+$q2 = '';
+$q3 = '';
+$q4 = '';
+$q5 = '';
+$q6 = '';
+
+$activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId'");
+$activePatientDataResult = mysqli_fetch_array($activePatientData);
+
+$activePatientIllnessInfo = mysqli_query($naturopathyCon, "SELECT * FROM illnessinformation WHERE patientId = '$patientUserId' ORDER BY id DESC LIMIT 1");
+
+if (mysqli_num_rows($activePatientIllnessInfo) > 0) {
+    $activePatientIllnessInfoResult = mysqli_fetch_array($activePatientIllnessInfo);
+    $q1 = $activePatientIllnessInfoResult['q1'];
+    $q2 = $activePatientIllnessInfoResult['q2'];
+    $q3 = $activePatientIllnessInfoResult['q3'];
+    $q4 = $activePatientIllnessInfoResult['q4'];
+    $q5 = $activePatientIllnessInfoResult['q5'];
+    $q6 = $activePatientIllnessInfoResult['q6'];
+    $updateData = True;
+    $updateDataId = $activePatientIllnessInfoResult['id'];
+}
+
+if (isset($_POST['updateData'])) {
+    $q1 = $_POST['q1'];
+    $q2 = $_POST['q2'];
+    $q3 = $_POST['q3'];
+    $q4 = $_POST['q4'];
+    $q5 = $_POST['q5'];
+    $q6 = $_POST['q6'];
+    $sql = "UPDATE `illnessinformation` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6' WHERE `illnessinformation`.`id` = '$updateDataId'";
+    $sql_result = mysqli_query($naturopathyCon, $sql);
+    if ($sql_result == TRUE) {
+        $dataUpdated = TRUE;
+    }
+}
+
+
+if (isset($_POST['submitData'])) {
+    $q1 = $_POST['q1'];
+    $q2 = $_POST['q2'];
+    $q3 = $_POST['q3'];
+    $q4 = $_POST['q4'];
+    $q5 = $_POST['q5'];
+    $q6 = $_POST['q6'];
+    $sql = "INSERT INTO `illnessinformation` (`id`, `patientId`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `is_delete`) VALUES (NULL, '$patientUserId', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '0')";
+    $sql_result = mysqli_query($naturopathyCon, $sql);
+    if ($sql_result == TRUE) {
+        $dataInserted = TRUE;
+    }
+}
+
 ?>
 
 
@@ -42,7 +100,34 @@ $patientUserId = $_SESSION['patientUserId'];
 </head>
 
 <body>
+    <?php
+    if ($dataInserted) {
+        echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Inserted!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+        $error = FALSE;
+    }
 
+    if ($dataUpdated) {
+        echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Updated!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+        $error = FALSE;
+    }
+
+    ?>
     <div class="main-wrapper">
 
         <div class="header">
@@ -136,12 +221,12 @@ $patientUserId = $_SESSION['patientUserId'];
                     <div class="row">
                         <div class="col-md-8">
                             <div class="d-flex align-items-center">
-                                <h5 class="">Full Name : Hritik</h5>
+                                <h5 class="">Full Name : <?= $activePatientDataResult['fullName'] ?></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex align-items-center">
-                                <h5 class="">Regd No. : Hritik</h5>
+                                <h5 class="">Regd No. : <?= $activePatientDataResult['regdNo'] ?></h5>
                             </div>
                         </div>
                     </div>
@@ -158,29 +243,29 @@ $patientUserId = $_SESSION['patientUserId'];
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class=""> How long are you suffering from the present illness ?</label>
-                                                <textarea rows="3" type="text" class="form-control" name=""></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q1"><?= $q1; ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="">Is it related to any specific incident ? If so, please state the incident.</label>
-                                                <textarea rows="3" type="text" class="form-control" name="radio"></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q2"><?= $q2; ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="">State, in detail the nature of complaints being experienced by you</label>
-                                                <textarea rows="3" type="text" class="form-control" name=""></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q3"><?= $q3; ?></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="">Details of present treatment</label>
-                                                <textarea rows="3" type="text" class="form-control" name=""></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q4"><?= $q4; ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="">Details of various medical tests Conducted and their results.</label>
-                                                <textarea rows="3" type="text" class="form-control" name=""></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q5"><?= $q5; ?></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label class="">Recommendation of your Doctor.</label>
-                                                <textarea rows="3" type="text" class="form-control" name=""></textarea>
+                                                <textarea rows="3" type="text" class="form-control" name="q6"><?= $q6; ?></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +275,12 @@ $patientUserId = $_SESSION['patientUserId'];
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submit">Submit</button>
+                            <?php
+                            if ($updateData) {
+                                echo  '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
+                            } else {
+                                echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
+                            } ?>
                         </div>
                     </div>
                 </form>
