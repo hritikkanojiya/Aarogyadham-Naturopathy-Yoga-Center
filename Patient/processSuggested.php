@@ -5,6 +5,108 @@ include('../assets/php/db_conn.php');
 $patientGender = $_SESSION['patientGender'];
 $patientFullName = $_SESSION['patientFullName'];
 $patientUserId = $_SESSION['patientUserId'];
+
+$activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId'");
+$activePatientDataResult = mysqli_fetch_array($activePatientData);
+
+$dataInserted = False;
+$dataUpdated = false;
+$updateData = False;
+
+$q1 = '';
+$q2 = '';
+$q3 = '';
+$q4 = '';
+$q5 = '';
+$q6 = '';
+$q7 = '';
+$q8 = '';
+$q9 = '';
+$q10 = '';
+$q11 = '';
+$q12 = '';
+$q13 = '';
+$q14 = '';
+$q15 = '';
+$q16 = '';
+$q17 = '';
+
+
+if (isset($_POST['submitData'])) {
+    $q1 = $_POST['q1'];
+    $q2 = $_POST['q2'];
+    $q3 = $_POST['q3'];
+    $q4 = $_POST['q4'];
+    $q5 = $_POST['q5'];
+    $q6 = $_POST['q6'];
+    $q7 = $_POST['q7'];
+    $q8 = $_POST['q8'];
+    $q9 = $_POST['q9'];
+    $q10 = $_POST['q10'];
+    $q11 = $_POST['q11'];
+    $q12 = $_POST['q12'];
+    $q13 = $_POST['q13'];
+    $q14 = $_POST['q14'];
+    $q15 = $_POST['q15'];
+    $q16 = $_POST['q16'];
+    $q17 = $_POST['q17'];
+    $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`) VALUES (NULL, '$patientUserId', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17')";
+    $sql_result = mysqli_query($naturopathyCon, $sql);
+    if ($sql_result) {
+        $dataInserted = True;
+    }
+}
+
+$PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
+$PSDResult = mysqli_fetch_array($PSD);
+
+if ($PSD) {
+    $q1 = $PSDResult['q1'];
+    $q2 = $PSDResult['q2'];
+    $q3 = $PSDResult['q3'];
+    $q4 = $PSDResult['q4'];
+    $q5 = $PSDResult['q5'];
+    $q6 = $PSDResult['q6'];
+    $q7 = $PSDResult['q7'];
+    $q8 = $PSDResult['q8'];
+    $q9 = $PSDResult['q9'];
+    $q10 = $PSDResult['q10'];
+    $q11 = $PSDResult['q11'];
+    $q12 = $PSDResult['q12'];
+    $q13 = $PSDResult['q13'];
+    $q14 = $PSDResult['q14'];
+    $q15 = $PSDResult['q15'];
+    $q16 = $PSDResult['q16'];
+    $q17 = $PSDResult['q17'];
+    $updateData = True;
+    $UpdateDataId = $PSDResult['id'];
+}
+
+if (isset($_POST['updateData'])) {
+    $q1 = $_POST['q1'];
+    $q2 = $_POST['q2'];
+    $q3 = $_POST['q3'];
+    $q4 = $_POST['q4'];
+    $q5 = $_POST['q5'];
+    $q6 = $_POST['q6'];
+    $q7 = $_POST['q7'];
+    $q8 = $_POST['q8'];
+    $q9 = $_POST['q9'];
+    $q10 = $_POST['q10'];
+    $q11 = $_POST['q11'];
+    $q12 = $_POST['q12'];
+    $q13 = $_POST['q13'];
+    $q14 = $_POST['q14'];
+    $q15 = $_POST['q15'];
+    $q16 = $_POST['q16'];
+    $q17 = $_POST['q17'];
+
+    $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
+    $sql_result = mysqli_query($naturopathyCon, $sql);
+    if ($sql_result) {
+        $dataUpdated = True;
+    }
+}
 ?>
 
 
@@ -42,6 +144,33 @@ $patientUserId = $_SESSION['patientUserId'];
 </head>
 
 <body>
+    <?php
+    if ($dataInserted) {
+        echo "<script>
+                Swal.fire({
+                icon: 'success',
+                title: 'Data Inserted!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                })
+            </script>";
+        $error = FALSE;
+    }
+
+    if ($dataUpdated) {
+        echo "<script>
+                Swal.fire({
+                icon: 'success',
+                title: 'Data Updated!',
+                timer: 1500,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                })
+            </script>";
+        $error = FALSE;
+    }
+    ?>
 
     <div class="main-wrapper">
 
@@ -136,12 +265,12 @@ $patientUserId = $_SESSION['patientUserId'];
                     <div class="row">
                         <div class="col-md-8">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0">Full Name</h5>
+                                <h5 class="mb-0">Full Name : <?= $activePatientDataResult['fullName']; ?></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0">Regd No.</h5>
+                                <h5 class="mb-0">Regd No. : <?= $activePatientDataResult['regdNo']; ?></h5>
                             </div>
                         </div>
                     </div>
@@ -165,25 +294,25 @@ $patientUserId = $_SESSION['patientUserId'];
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q1" placeholder="">
+                                                        <input type="text" class="form-control" name="q1" placeholder="" value="<?= $q1; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Purak + Bhramari Rechak</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q2" placeholder="">
+                                                        <input type="text" class="form-control" name="q2" placeholder="" value="<?= $q2; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Suraya Mantra Japa</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q3" placeholder="">
+                                                        <input type="text" class="form-control" name="q3" placeholder="" value="<?= $q3; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Bharmari Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q4" placeholder="">
+                                                        <input type="text" class="form-control" name="q4" placeholder="" value="<?= $q4; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -213,49 +342,49 @@ $patientUserId = $_SESSION['patientUserId'];
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Jalaneti (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q5" placeholder="">
+                                                        <input type="text" class="form-control" name="q5" placeholder="" value="<?= $q5; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">L. S. P (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q6" placeholder="">
+                                                        <input type="text" class="form-control" name="q6" placeholder="" value="<?= $q6; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Vaman (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q7" placeholder="">
+                                                        <input type="text" class="form-control" name="q7" placeholder="" value="<?= $q7; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> F. S. P. (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q8" placeholder="">
+                                                        <input type="text" class="form-control" name="q8" placeholder="" value="<?= $q8; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Hot fomentation and Massage (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q9" placeholder="">
+                                                        <input type="text" class="form-control" name="q9" placeholder="" value="<?= $q9; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Local steam application (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q10" placeholder="">
+                                                        <input type="text" class="form-control" name="q10" placeholder="" value="<?= $q10; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Steambath (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q11" placeholder="">
+                                                        <input type="text" class="form-control" name="q11" placeholder="" value="<?= $q11; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Tail / Sanjivan Basti (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="Q12" placeholder="">
+                                                        <input type="text" class="form-control" name="q12" placeholder="" value="<?= $q12; ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -273,11 +402,11 @@ $patientUserId = $_SESSION['patientUserId'];
                                     <div class="row">
                                         <div class="col-12 homeMessage">
                                             <div class="form-group">
-                                                Yognidra <input type="text" class="form-control" style="width:auto" name="Q13" placeholder=""> daily
-                                                <input type="text" class="form-control" name="Q14" placeholder=""> Times. Before sleep Omkar Jap daily
-                                                <input type="text" class="form-control" name="Q14" placeholder=""> minutes.
+                                                Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>"> daily
+                                                <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>"> Times. Before sleep Omkar Jap daily
+                                                <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>"> minutes.
                                                 <div class="" style="display: inline-block;">
-                                                    ( <input type="text" class="form-control" style="height:35px;" name="Q16" placeholder=""> times)
+                                                    ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>"> times)
                                                 </div>
                                                 hot foamatation after applying Sanjivan oil (Daily 2 times)
                                             </div>
@@ -299,14 +428,14 @@ $patientUserId = $_SESSION['patientUserId'];
                                             <div class="form-group mb-2">
                                                 <h5 class="card-title text-center" style="font-weight:bold">Useful Diet</h5>
                                                 <div class="row">
-                                                    <div class="col-12" style="font-size:1.3rem">
+                                                    <div class="col-12">
                                                         <ol class="mb-0">
                                                             <li>Lunch before 12 Noon.</li>
                                                             <li>Dinner before 7 Evening.</li>
                                                             <li>Plenty of Fruits / Leafy vegetables soup.</li>
                                                             <li>To consume more natural food.</li>
                                                             <li><label class="">Yogamrit Daily </label>
-                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="Q17"> <label class=""> times (in lieu tea) </label>
+                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>"> <label class=""> times (in lieu tea) </label>
                                                             </li>
                                                         </ol>
                                                     </div>
@@ -317,7 +446,7 @@ $patientUserId = $_SESSION['patientUserId'];
                                             <div class="form-group mb-2">
                                                 <h5 class="card-title text-center" style="font-weight:bold">Diet to avoided</h5>
                                                 <div class="row">
-                                                    <div class="col-12" style="font-size:1.3rem">
+                                                    <div class="col-12">
                                                         <ol class="mb-0">
                                                             <li>Non-veg, Hot & Spices, Fried food.</li>
                                                             <li>Bakery product, pickles, oil, ghee.</li>
@@ -342,7 +471,14 @@ $patientUserId = $_SESSION['patientUserId'];
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>
+                            <?php
+                            if ($updateData) {
+                                echo '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
+                            } else {
+                                echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
+                            }
+                            ?>
+
                         </div>
                     </div>
                 </form>
