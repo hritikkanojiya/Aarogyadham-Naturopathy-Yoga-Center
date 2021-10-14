@@ -1,10 +1,125 @@
 <?php
+error_reporting(0);
 session_start();
 include('../assets/php/db_conn.php');
 
 $patientGender = $_SESSION['patientGender'];
 $patientFullName = $_SESSION['patientFullName'];
 $patientUserId = $_SESSION['patientUserId'];
+
+$dataInserted = False;
+$dataUpdated = False;
+$updateData = False;
+
+$q1 = '';
+$q2 = '';
+$q3 = '';
+$q4 = '';
+$q5 = '';
+$q6 = '';
+$q7 = '';
+$q8 = '';
+$q9 = '';
+$q10 = '';
+$q11 = '';
+$q12 = '';
+$q13 = '';
+$q14 = '';
+$q15 = '';
+$q16 = '';
+$q17 = '';
+$q18 = '';
+$q19 = '';
+$q20 = '';
+$q21 = '';
+
+$questionnaireData = mysqli_query($naturopathyCon, "SELECT * FROM healthquestionnaire WHERE patientId = '$patientUserId' ORDER BY id DESC LIMIT 1");
+
+if (mysqli_num_rows($questionnaireData) > 0) {
+    $questionnaireDataArray = mysqli_fetch_array($questionnaireData);
+    $q1 = $questionnaireDataArray['q1'];
+    $q2 = $questionnaireDataArray['q2'];
+    $q3 = $questionnaireDataArray['q3'];
+    $q4 = $questionnaireDataArray['q4'];
+    $q5 = $questionnaireDataArray['q5'];
+    $q6 = $questionnaireDataArray['q6'];
+    $q7 = $questionnaireDataArray['q7'];
+    $q8 = $questionnaireDataArray['q8'];
+    $q9 = $questionnaireDataArray['q9'];
+    $q10 = $questionnaireDataArray['q10'];
+    $q11 = $questionnaireDataArray['q11'];
+    $q12 = $questionnaireDataArray['q12'];
+    $q13 = $questionnaireDataArray['q13'];
+    $q14 = $questionnaireDataArray['q14'];
+    $q15 = $questionnaireDataArray['q15'];
+    $q16 = $questionnaireDataArray['q16'];
+    $q17 = $questionnaireDataArray['q17'];
+    $q18 = $questionnaireDataArray['q18'];
+    $q19 = $questionnaireDataArray['q19'];
+    $q20 = $questionnaireDataArray['q20'];
+    $q21 = $questionnaireDataArray['q21'];
+    $updateData = True;
+    $updateDataId = $questionnaireDataArray['id'];
+}
+
+if (isset($_POST['submitData'])) {
+    $q1 = $_POST['Q1'];
+    $q2 = $_POST['Q2'];
+    $q3 = $_POST['Q3'];
+    $q4 = $_POST['Q4'];
+    $q5 = $_POST['Q5'];
+    $q6 = $_POST['Q6'];
+    $q7 = $_POST['Q7'];
+    $q8 = $_POST['Q8'];
+    $q9 = $_POST['Q9'];
+    $q10 = $_POST['Q10'];
+    $q11 = $_POST['Q11'];
+    $q12 = $_POST['Q12'];
+    $q13 = $_POST['Q13'];
+    $q14 = $_POST['Q14'];
+    $q15 = $_POST['Q15'];
+    $q16 = $_POST['Q16'];
+    $q17 = $_POST['Q17'];
+    $q18 = $_POST['Q18'];
+    $q19 = $_POST['Q19'];
+    $q20 = $_POST['Q20'];
+    $q21 = $_POST['Q21'];
+    $insertData = mysqli_query($naturopathyCon, "INSERT INTO `healthquestionnaire` (`id`, `patientId`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20` ,`q21`) VALUES (NULL, '$patientUserId', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18', '$q19', '$q20' ,'$q21')");
+    if ($insertData) {
+        $dataInserted = True;
+    }
+    // header('location: questionnaire.php?status=100');
+}
+
+
+if (isset($_POST['updateData'])) {
+    $q1 = $_POST['Q1'];
+    $q2 = $_POST['Q2'];
+    $q3 = $_POST['Q3'];
+    $q4 = $_POST['Q4'];
+    $q5 = $_POST['Q5'];
+    $q6 = $_POST['Q6'];
+    $q7 = $_POST['Q7'];
+    $q8 = $_POST['Q8'];
+    $q9 = $_POST['Q9'];
+    $q10 = $_POST['Q10'];
+    $q11 = $_POST['Q11'];
+    $q12 = $_POST['Q12'];
+    $q13 = $_POST['Q13'];
+    $q14 = $_POST['Q14'];
+    $q15 = $_POST['Q15'];
+    $q16 = $_POST['Q16'];
+    $q17 = $_POST['Q17'];
+    $q18 = $_POST['Q18'];
+    $q19 = $_POST['Q19'];
+    $q20 = $_POST['Q20'];
+    $q21 = $_POST['Q21'];
+    $updateSQL = mysqli_query($naturopathyCon, "UPDATE `healthquestionnaire` SET `q1`= '$q1' ,`q2`= '$q2',`q3`= '$q3',`q4`= '$q4',`q5`= '$q5',`q6`= '$q6',`q7`= '$q7',`q8`= '$q8',`q9`= '$q9',`q10`= '$q10',`q11`= '$q11',`q12`= '$q12',`q13`= '$q13',`q14`= '$q14',`q15` = '$q15',`q16`= '$q16',`q17`= '$q17',`q18`= '$q18',`q19`= '$q19',`q20`= '$q20',`q21`= '$q21' WHERE `healthquestionnaire`.`id` = '$updateDataId'");
+    if ($updateSQL) {
+        $dataUpdated = True;
+    }
+    header('location: questionnaire.php?status=101');
+}
 ?>
 
 
@@ -40,7 +155,34 @@ $patientUserId = $_SESSION['patientUserId'];
 </head>
 
 <body>
+    <?php
+    if ($_GET['status'] == 100) {
+        echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Inserted!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+        $error = FALSE;
+    }
 
+    if ($_GET['status'] == 101) {
+        echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Updated!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+        $error = FALSE;
+    }
+
+    ?>
     <div class="main-wrapper">
 
         <div class="header">
@@ -162,17 +304,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q1"> Yes
+                                                                <input type="radio" value="Yes" name="Q1" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q1"> No
+                                                                <input type="radio" value="No" name="Q1" required> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q1"> Can't Say
+                                                                <input type="radio" value="Can`t Say" name="Q1" required> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -184,12 +326,12 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row ustify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q2"> Yes
+                                                                <input type="radio" value="Yes" name="Q2" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q2"> No
+                                                                <input type="radio" value="No" name="Q2" required> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -201,12 +343,12 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q3"> Nothing
+                                                                <input type="radio" value="Nothing" name="Q3" required> Nothing
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q3"> Some Medicine
+                                                                <input type="radio" value="Some Medicine" name="Q3" required> Some Medicine
                                                             </label>
                                                         </div>
                                                     </div>
@@ -218,17 +360,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q4"> Always
+                                                                <input type="radio" value="Always" name="Q4" required> Always
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q4"> Sometimes
+                                                                <input type="radio" value="Sometimes" name="Q4" required> Sometimes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q4"> Rarely
+                                                                <input type="radio" value="Rarely" name="Q4" required> Rarely
                                                             </label>
                                                         </div>
                                                     </div>
@@ -240,17 +382,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q5"> Yes
+                                                                <input type="radio" value="Yes" name="Q5" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q5"> No
+                                                                <input type="radio" value="No" name="Q5" required> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q5"> Can't Say
+                                                                <input type="radio" value="Can`t Say" name="Q5" required> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -262,34 +404,34 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q6"> Deep
+                                                                <input type="radio" value="Deep" name="Q6" required> Deep
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q6"> Restless
+                                                                <input type="radio" value="Restless" name="Q6" required> Restless
                                                             </label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-lg-8" for="fullName">Do you feel fatigue after day's work ?</label>
+                                                <label class="col-lg-8" for="fullName">Do you feel fatigue after day`s work ?</label>
                                                 <div class="col-lg-4">
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q7"> Yes
+                                                                <input type="radio" value="Yes" name="Q7" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q7"> No
+                                                                <input type="radio" value="No" name="Q7" required> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q7"> Can't Say
+                                                                <input type="radio" value="Can`t Say" name="Q7" required> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -301,17 +443,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q8"> Yes
+                                                                <input type="radio" value="Yes" name="Q8" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q8"> No
+                                                                <input type="radio" value="No" name="Q8" required> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q8"> Can't Say
+                                                                <input type="radio" value="Can`t Say" name="Q8" required> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -323,17 +465,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q9"> Yes
+                                                                <input type="radio" value="Yes" required name="Q9"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q9"> No
+                                                                <input type="radio" value="No" required name="Q9"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q9"> Can't Say
+                                                                <input type="radio" value="Can`t Say" required name="Q9"> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -345,17 +487,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q10"> Yes
+                                                                <input type="radio" value="Yes" required name="Q10"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q10"> No
+                                                                <input type="radio" value="No" required name="Q10"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q10"> Can't Say
+                                                                <input type="radio" value="Can`t Say" required name="Q10"> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -367,17 +509,17 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q11"> Yes
+                                                                <input type="radio" value="Yes" required name="Q11"> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q11"> No
+                                                                <input type="radio" value="No" required name="Q11"> No
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q11"> Can't Say
+                                                                <input type="radio" value="Can`t Say" required name="Q11"> Can`t Say
                                                             </label>
                                                         </div>
                                                     </div>
@@ -389,12 +531,12 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q12"> Yes
+                                                                <input type="radio" value="Yes" name="Q12" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q12"> No
+                                                                <input type="radio" value="No" name="Q12" required> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -406,12 +548,12 @@ $patientUserId = $_SESSION['patientUserId'];
                                                     <div class="row justify-content-start">
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q13"> Yes
+                                                                <input type="radio" value="Yes" name="Q13" required> Yes
                                                             </label>
                                                         </div>
                                                         <div class="radio mx-2">
                                                             <label>
-                                                                <input type="radio" name="Q13"> No
+                                                                <input type="radio" value="No" name="Q13" required> No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -434,25 +576,25 @@ $patientUserId = $_SESSION['patientUserId'];
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Breakfast</label>
-                                                        <input type="time" class="form-control" name="Q14" id="">
+                                                        <input type="time" class="form-control" name="Q14" value="<?= $q14 ?>" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Evening Snacks</label>
-                                                        <input type="time" class="form-control" name="Q15" id="">
+                                                        <input type="time" class="form-control" name="Q15" value="<?= $q15 ?>" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Lunch</label>
-                                                        <input type="time" class="form-control" name="Q16" id="">
+                                                        <input type="time" class="form-control" name="Q16" value="<?= $q16 ?>" id="">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Dinner</label>
-                                                        <input type="time" class="form-control" name="Q17" id="">
+                                                        <input type="time" class="form-control" name="Q17" value="<?= $q17 ?>" id="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -466,31 +608,31 @@ $patientUserId = $_SESSION['patientUserId'];
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="" for="fullName">First</label>
-                                                        <input type="time" class="form-control" name="Q18" id="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="" for="fullName">Second</label>
-                                                        <input type="time" class="form-control" name="Q19" id="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="" for="fullName">Third</label>
-                                                        <input type="time" class="form-control" name="Q20" id="">
-                                                    </div>
-                                                </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="" for="fullName">First</label>
+                                                <input type="time" class="form-control" name="Q18" value="<?= $q18 ?>" id="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="" for="fullName">Second</label>
+                                                <input type="time" class="form-control" name="Q19" value="<?= $q19 ?>" id="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-3">
+                                                <label class="" for="fullName">Third</label>
+                                                <input type="time" class="form-control" name="Q20" value="<?= $q20 ?>" id="">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">Addictions (if any)</h5>
@@ -502,7 +644,7 @@ $patientUserId = $_SESSION['patientUserId'];
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="" for="fullName">Please Elaborate</label>
-                                                        <textarea type="text" rows="2" class="form-control" name="Q21" id=""></textarea>
+                                                        <textarea type="text" rows="5" class="form-control" name="Q21" id=""><?= $q21 ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -514,7 +656,12 @@ $patientUserId = $_SESSION['patientUserId'];
                     </div>
                     <div class="row justify-content-center pb-5">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-lg btn-primary" name="submit">Submit</button>
+                            <?php
+                            if ($updateData) {
+                                echo  '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
+                            } else {
+                                echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
+                            } ?>
                         </div>
                     </div>
                 </form>
@@ -530,6 +677,31 @@ $patientUserId = $_SESSION['patientUserId'];
 
     <script src="../assets/js/script.js"></script>
 
+    <script>
+        $('document').ready(function() {
+            setTimeout(() => {
+                $("input[name=Q1][value='<?= $q1 ?>']").prop('checked', true);
+                $("input[name=Q2][value='<?= $q2 ?>']").prop('checked', true);
+                $("input[name=Q3][value='<?= $q3 ?>']").prop('checked', true);
+                $("input[name=Q4][value='<?= $q4 ?>']").prop('checked', true);
+                $("input[name=Q5][value='<?= $q5 ?>']").prop('checked', true);
+                $("input[name=Q6][value='<?= $q6 ?>']").prop('checked', true);
+                $("input[name=Q7][value='<?= $q7 ?>']").prop('checked', true);
+                $("input[name=Q8][value='<?= $q8 ?>']").prop('checked', true);
+                $("input[name=Q9][value='<?= $q9 ?>']").prop('checked', true);
+                $("input[name=Q10][value='<?= $q10 ?>']").prop('checked', true);
+                $("input[name=Q11][value='<?= $q11 ?>']").prop('checked', true);
+                $("input[name=Q12][value='<?= $q12 ?>']").prop('checked', true);
+                $("input[name=Q13][value='<?= $q13 ?>']").prop('checked', true);
+            }, 300);
+        })
+    </script>
+    <!-- 
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script> -->
 
 </body>
 
