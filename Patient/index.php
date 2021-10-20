@@ -34,7 +34,7 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Hospital - Login</title>
+    <title>Aarogyadham-Naturopathy-Yoga-Center | Patient Login</title>
 
     <link rel="shortcut icon" href="../assets/img/logo-favicon.png">
 

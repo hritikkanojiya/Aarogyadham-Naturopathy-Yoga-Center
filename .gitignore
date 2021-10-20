@@ -1,3 +1,5 @@
 # Exclue Database Connection File
 assets/php/db_conn.php
 
+# Exclude Zip File
+Hospital.zip

@@ -1,6 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['patientSessionActive'])) {
+    header('location: recordsheet.php');
     include('../assets/php/db_conn.php');
 
     $patientGender = $_SESSION['patientGender'];
@@ -64,8 +65,8 @@ if (isset($_SESSION['patientSessionActive'])) {
                         <ul>
                             <li class="menu-title"> <span>Main</span>
                             </li>
-                            <li class="active"> <a href="dashboard.php"><i class="feather-home"></i><span class="shape1"></span><span class="shape2"></span><span>Dashboard</span></a>
-                            </li>
+                            <!-- <li class="active"> <a href="dashboard.php"><i class="feather-home"></i><span class="shape1"></span><span class="shape2"></span><span>Dashboard</span></a>
+                            </li> -->
                             <li class=""><a href="recordsheet.php"><i class="feather-file-text"></i> <span>Record Sheet</span></a>
                             </li>
                             <li class=""><a href="illness.php"><i class="feather-info"></i> <span>Illness Information</span></a>
@@ -85,8 +86,8 @@ if (isset($_SESSION['patientSessionActive'])) {
                             </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
-                            <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
-                            </li>
+                            <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
+                            </li> -->
                             <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                             </li>
                         </ul>

@@ -2,6 +2,7 @@
 error_reporting(0);
 session_start();
 include('../assets/php/db_conn.php');
+date_default_timezone_set('Asia/Kolkata');
 
 $patientGender = $_SESSION['patientGender'];
 $patientFullName = $_SESSION['patientFullName'];
@@ -32,11 +33,16 @@ $q18 = '';
 $q19 = '';
 $q20 = '';
 $q21 = '';
+$recordDate = date('m-d-Y');
+
+$activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId'");
+$activePatientDataResult = mysqli_fetch_array($activePatientData);
 
 $questionnaireData = mysqli_query($naturopathyCon, "SELECT * FROM healthquestionnaire WHERE patientId = '$patientUserId' ORDER BY id DESC LIMIT 1");
 
 if (mysqli_num_rows($questionnaireData) > 0) {
     $questionnaireDataArray = mysqli_fetch_array($questionnaireData);
+    $recordDate = $questionnaireDataArray['recordDate'];
     $q1 = $questionnaireDataArray['q1'];
     $q2 = $questionnaireDataArray['q2'];
     $q3 = $questionnaireDataArray['q3'];
@@ -62,36 +68,6 @@ if (mysqli_num_rows($questionnaireData) > 0) {
     $updateDataId = $questionnaireDataArray['id'];
 }
 
-if (isset($_POST['submitData'])) {
-    $q1 = $_POST['Q1'];
-    $q2 = $_POST['Q2'];
-    $q3 = $_POST['Q3'];
-    $q4 = $_POST['Q4'];
-    $q5 = $_POST['Q5'];
-    $q6 = $_POST['Q6'];
-    $q7 = $_POST['Q7'];
-    $q8 = $_POST['Q8'];
-    $q9 = $_POST['Q9'];
-    $q10 = $_POST['Q10'];
-    $q11 = $_POST['Q11'];
-    $q12 = $_POST['Q12'];
-    $q13 = $_POST['Q13'];
-    $q14 = $_POST['Q14'];
-    $q15 = $_POST['Q15'];
-    $q16 = $_POST['Q16'];
-    $q17 = $_POST['Q17'];
-    $q18 = $_POST['Q18'];
-    $q19 = $_POST['Q19'];
-    $q20 = $_POST['Q20'];
-    $q21 = $_POST['Q21'];
-    $insertData = mysqli_query($naturopathyCon, "INSERT INTO `healthquestionnaire` (`id`, `patientId`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20` ,`q21`) VALUES (NULL, '$patientUserId', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18', '$q19', '$q20' ,'$q21')");
-    if ($insertData) {
-        $dataInserted = True;
-    }
-    // header('location: questionnaire.php?status=100');
-}
-
-
 if (isset($_POST['updateData'])) {
     $q1 = $_POST['Q1'];
     $q2 = $_POST['Q2'];
@@ -115,11 +91,36 @@ if (isset($_POST['updateData'])) {
     $q20 = $_POST['Q20'];
     $q21 = $_POST['Q21'];
     $updateSQL = mysqli_query($naturopathyCon, "UPDATE `healthquestionnaire` SET `q1`= '$q1' ,`q2`= '$q2',`q3`= '$q3',`q4`= '$q4',`q5`= '$q5',`q6`= '$q6',`q7`= '$q7',`q8`= '$q8',`q9`= '$q9',`q10`= '$q10',`q11`= '$q11',`q12`= '$q12',`q13`= '$q13',`q14`= '$q14',`q15` = '$q15',`q16`= '$q16',`q17`= '$q17',`q18`= '$q18',`q19`= '$q19',`q20`= '$q20',`q21`= '$q21' WHERE `healthquestionnaire`.`id` = '$updateDataId'");
-    if ($updateSQL) {
-        $dataUpdated = True;
-    }
-    header('location: questionnaire.php?status=101');
+    ($updateSQL) ? header('location:questionnaire.php?status=101') : header('location:questionnaire.php');
 }
+
+if (isset($_POST['submitData'])) {
+    $recordDate = date('m-d-Y');
+    $q1 = $_POST['Q1'];
+    $q2 = $_POST['Q2'];
+    $q3 = $_POST['Q3'];
+    $q4 = $_POST['Q4'];
+    $q5 = $_POST['Q5'];
+    $q6 = $_POST['Q6'];
+    $q7 = $_POST['Q7'];
+    $q8 = $_POST['Q8'];
+    $q9 = $_POST['Q9'];
+    $q10 = $_POST['Q10'];
+    $q11 = $_POST['Q11'];
+    $q12 = $_POST['Q12'];
+    $q13 = $_POST['Q13'];
+    $q14 = $_POST['Q14'];
+    $q15 = $_POST['Q15'];
+    $q16 = $_POST['Q16'];
+    $q17 = $_POST['Q17'];
+    $q18 = $_POST['Q18'];
+    $q19 = $_POST['Q19'];
+    $q20 = $_POST['Q20'];
+    $q21 = $_POST['Q21'];
+    $insertSQL = mysqli_query($naturopathyCon, "INSERT INTO `healthquestionnaire` (`id`, `patientId`,`recordDate` ,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20` ,`q21`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18', '$q19', '$q20' ,'$q21')");
+    ($insertSQL) ? header('location:questionnaire.php?status=100') : header('location:questionnaire.php');
+}
+
 ?>
 
 
@@ -130,7 +131,7 @@ if (isset($_POST['updateData'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Hospital - Health Questionnaire</title>
+    <title>Hospital Aarogyadham-Naturopathy-Yoga-Center | Health Questionnaire</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -188,10 +189,10 @@ if (isset($_POST['updateData'])) {
         <div class="header">
 
             <div class="header-left">
-                <a href="dashboard.php.html" class="logo">
+                <a href="dashboard.php" class="logo">
                     <img src="../assets/img/logo-favicon.png" alt="Logo">
                 </a>
-                <a href="dashboard.php.html" class="logo logo-small">
+                <a href="dashboard.php" class="logo logo-small">
                     <img src="../assets/img/logo-favicon.png" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -216,8 +217,8 @@ if (isset($_POST['updateData'])) {
                     <ul>
                         <li class="menu-title"> <span>Main</span>
                         </li>
-                        <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
-                        </li>
+                        <!-- <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
+                        </li> -->
                         <li class=""><a href="recordsheet.php"><i class="feather-file-text"></i> <span>Record Sheet</span></a>
                         </li>
                         <li class=""><a href="illness.php"><i class="feather-info"></i> <span>Illness Information</span></a>
@@ -237,8 +238,8 @@ if (isset($_POST['updateData'])) {
                         </li>
                         <li class="menu-title"> <span>Account</span>
                         </li>
-                        <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
-                        </li>
+                        <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
+                        </li> -->
                         <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                         </li>
                     </ul>
@@ -268,7 +269,7 @@ if (isset($_POST['updateData'])) {
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0">Health Questionnaire Sheet (Check-out which ever is applicable)</h5>
+                                <h5 class="card-title mb-0">Health Questionnaire (Check-out which ever is applicable)</h5>
                             </div>
                         </div>
                     </div>
@@ -276,14 +277,19 @@ if (isset($_POST['updateData'])) {
 
                 <div class="page-header">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0">Full Name</h5>
+                                <h5 class="mb-0">Patient Name : <?= $activePatientDataResult['fullName'] ?></h5>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex align-items-center">
-                                <h5 class="mb-0">Regd No.</h5>
+                                <h5 class="mb-0">Regd No : <?= $activePatientDataResult['regdNo'] ?></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center">
+                                <h5 class="mb-0">Record Date : <?= $recordDate ?></h5>
                             </div>
                         </div>
                     </div>

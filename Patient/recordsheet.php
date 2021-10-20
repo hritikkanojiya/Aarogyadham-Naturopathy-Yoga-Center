@@ -1,7 +1,9 @@
 <?php
+error_reporting(0);
 session_start();
 if (isset($_SESSION['patientSessionActive'])) {
     include('../assets/php/db_conn.php');
+    date_default_timezone_set('Asia/Kolkata');
 
     $patientGender = $_SESSION['patientGender'];
     $patientFullName = $_SESSION['patientFullName'];
@@ -11,6 +13,7 @@ if (isset($_SESSION['patientSessionActive'])) {
     $dataUpdated = false;
     $updateData = False;
 
+    $patientBatch = '';
     $fullname = $patientFullName;
     $age = '';
     $gender = $patientGender;
@@ -28,7 +31,7 @@ if (isset($_SESSION['patientSessionActive'])) {
     $ongoingTreatment = '';
     $doctorName = '';
     $doctorPhone = '';
-
+    $recordDate = date('m-d-Y');
 
     $activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId'");
     $activePatientDataResult = mysqli_fetch_array($activePatientData);
@@ -42,6 +45,7 @@ if (isset($_SESSION['patientSessionActive'])) {
         $fullname = $patientFullName;
         $age = $activePatientRecordSheetResult['age'];
         $gender = $patientGender;
+        $patientBatch = $activePatientRecordSheetResult['batch'];
         $dob = $activePatientRecordSheetResult['dob'];
         $phone = $activePatientRecordSheetResult['phone'];
         $address = $activePatientRecordSheetResult['address'];
@@ -56,6 +60,7 @@ if (isset($_SESSION['patientSessionActive'])) {
         $ongoingTreatment = $activePatientRecordSheetResult['ongoingTreatment'];
         $doctorName = $activePatientRecordSheetResult['doctorName'];
         $doctorPhone = $activePatientRecordSheetResult['doctorPhone'];
+        $recordDate = $activePatientRecordSheetResult['recordDate'];
         $updateData = True;
         $updateDataId = $activePatientRecordSheetResult['id'];
     }
@@ -63,6 +68,7 @@ if (isset($_SESSION['patientSessionActive'])) {
         $fullname = $patientFullName;
         $age = $_POST['age'];
         $gender = $patientGender;
+        $patientBatch = $_POST['batch'];
         $dob = $_POST['dob'];
         $phone = $_POST['phone'];
         $address = $_POST['address'];
@@ -78,17 +84,16 @@ if (isset($_SESSION['patientSessionActive'])) {
         $doctorName = $_POST['doctorName'];
         $doctorPhone = $_POST['doctorPhone'];
 
-        $sql = "UPDATE `patientdetails` SET `fullName` = '$fullname', `address` = '$address', `age` = '$age', `dob` = '$dob', `phone` = '$phone', `occupation` = '$occupation', `natureOfDailyWork` = '$natureOfDailyWork', `execriseDoneBefore` = '$execriseDoneBefore', `natureofPresentExercise` = '$natureofPresentExercise', `pastSurgeries` = '$pastSurgeries', `pastMajorIllnesses` = '$pastMajorIllnesses', `presentPhysicalComplaints` = '$presentPhysicalComplaints', `ongoingTreatment` = '$ongoingTreatment', `doctorName` = '$doctorName', `doctorPhone` = '$doctorPhone' WHERE `patientdetails`.`id` = '$updateDataId";
-        $sql_result = mysqli_query($naturopathyCon, $sql);
-        if ($sql_result == True) {
-            $dataUpdated = True;
-        }
+        $sql = "UPDATE `patientdetails` SET `fullName` = '$fullname', `batch` = '$patientBatch' , `address` = '$address', `age` = '$age', `dob` = '$dob', `phone` = '$phone', `occupation` = '$occupation', `natureOfDailyWork` = '$natureOfDailyWork', `execriseDoneBefore` = '$execriseDoneBefore', `natureofPresentExercise` = '$natureofPresentExercise', `pastSurgeries` = '$pastSurgeries', `dateOfSurgery` = '$dateOfSurgery' , `pastMajorIllnesses` = '$pastMajorIllnesses', `presentPhysicalComplaints` = '$presentPhysicalComplaints', `ongoingTreatment` = '$ongoingTreatment', `doctorName` = '$doctorName', `doctorPhone` = '$doctorPhone' WHERE `patientdetails`.`id` = '$updateDataId'";
+        $updateSQL = mysqli_query($naturopathyCon, $sql);
+        ($updateSQL) ? header('location:recordsheet.php?status=101') : header('location:recordsheet.php');
     }
 
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['submitData'])) {
         $fullname = $patientFullName;
         $age = $_POST['age'];
         $gender = $patientGender;
+        $patientBatch = $_POST['batch'];
         $dob = $_POST['dob'];
         $phone = $_POST['phone'];
         $address = $_POST['address'];
@@ -103,9 +108,10 @@ if (isset($_SESSION['patientSessionActive'])) {
         $ongoingTreatment = $_POST['ongoingTreatment'];
         $doctorName = $_POST['doctorName'];
         $doctorPhone = $_POST['doctorPhone'];
+        $recordDate = date('m-d-Y');
 
-        $insertSQL = mysqli_query($naturopathyCon, "INSERT INTO `patientdetails` (`patientId`,`fullName`, `gender`, `address`, `age`, `dob`, `phone`, `occupation`, `natureOfDailyWork`, `execriseDoneBefore`, `natureofPresentExercise`, `pastSurgeries`, `dateOfSurgery`, `pastMajorIllnesses`, `presentPhysicalComplaints`, `ongoingTreatment`, `doctorName`, `doctorPhone`) VALUES ('$patientUserId','$fullname', '$gender', '$address', '$age', '$dob', '$phone', '$occupation', '$natureOfDailyWork', '$execriseDoneBefore', '$natureofPresentExercise', '$pastSurgeries', '$dateOfSurgery', '$pastMajorIllnesses', '$presentPhysicalComplaints', '$ongoingTreatment', '$doctorName', '$doctorPhone')");
-        $dataInserted = ($insertSQL) ? True : False;
+        $insertSQL = mysqli_query($naturopathyCon, "INSERT INTO `patientdetails` (`patientId`,`fullName`, `gender`,`batch`,`recordDate`, `address`, `age`, `dob`, `phone`, `occupation`, `natureOfDailyWork`, `execriseDoneBefore`, `natureofPresentExercise`, `pastSurgeries`, `dateOfSurgery`, `pastMajorIllnesses`, `presentPhysicalComplaints`, `ongoingTreatment`, `doctorName`, `doctorPhone`) VALUES ('$patientUserId','$fullname', '$gender','$patientBatch','$recordDate','$address', '$age', '$dob', '$phone', '$occupation', '$natureOfDailyWork', '$execriseDoneBefore', '$natureofPresentExercise', '$pastSurgeries', '$dateOfSurgery', '$pastMajorIllnesses', '$presentPhysicalComplaints', '$ongoingTreatment', '$doctorName', '$doctorPhone')");
+        ($insertSQL) ? header('location:recordsheet.php?status=100') : header('location:recordsheet.php');
     }
 ?>
 
@@ -116,7 +122,7 @@ if (isset($_SESSION['patientSessionActive'])) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Hospital</title>
+        <title>Aarogyadham-Naturopathy-Yoga-Center | Patient Record Sheet</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -131,6 +137,8 @@ if (isset($_SESSION['patientSessionActive'])) {
 
         <link rel="stylesheet" href="../assets/css/style.css">
 
+        <link rel="stylesheet" href="../assets/css/appstyle.css">
+
         <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -139,24 +147,24 @@ if (isset($_SESSION['patientSessionActive'])) {
 
     <body>
         <?php
-        if ($dataInserted) {
+        if ($_GET['status'] == 100) {
             echo "<script>
                 Swal.fire({
                 icon: 'success',
                 title: 'Data Inserted!',
-                timer: 1500,
+                timer: 1000,
                 timerProgressBar: true,
                 showConfirmButton: false,
                 })
             </script>";
             $error = FALSE;
         }
-        if ($dataUpdated) {
+        if ($_GET['status'] == 101) {
             echo "<script>
                 Swal.fire({
                 icon: 'success',
                 title: 'Data Updated!',
-                timer: 1500,
+                timer: 1000,
                 timerProgressBar: true,
                 showConfirmButton: false,
                 })
@@ -168,10 +176,10 @@ if (isset($_SESSION['patientSessionActive'])) {
 
             <div class="header">
                 <div class="header-left">
-                    <a class="logo text-center">
+                    <a  href="dashboard.php" class="logo text-center">
                         <img src="../assets/img/logo-favicon.png" alt="Logo">
                     </a>
-                    <a href="patientDashboard.php" class="logo logo-small">
+                    <a href="dashboard.php" class="logo logo-small">
                         <img src="../assets/img/logo-favicon.png" alt="Logo" width="30" height="30">
                     </a>
                 </div>
@@ -191,8 +199,8 @@ if (isset($_SESSION['patientSessionActive'])) {
                         <ul>
                             <li class="menu-title"> <span>Main</span>
                             </li>
-                            <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
-                            </li>
+                            <!-- <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
+                            </li> -->
                             <li class="active"><a href="recordsheet.php"><i class="feather-file-text"></i> <span class="shape1"></span><span class="shape2"></span><span>Record Sheet</span></a>
                             <li class=""><a href="illness.php"><i class="feather-info"></i> <span>Illness Information</span></a>
                             </li>
@@ -211,8 +219,8 @@ if (isset($_SESSION['patientSessionActive'])) {
                             </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
-                            <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
-                            </li>
+                            <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
+                            </li> -->
                             <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                             </li>
                         </ul>
@@ -223,8 +231,17 @@ if (isset($_SESSION['patientSessionActive'])) {
             <div class="page-wrapper">
                 <div class="content container-fluid">
                     <div class="page-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="card-title mb-0">Patient Record Sheet</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-header">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <div class="d-flex align-items-center">
                                     <h5 class="mb-0">Patient Name : <?= $activePatientDataResult['fullName'] ?></h5>
                                 </div>
@@ -232,6 +249,11 @@ if (isset($_SESSION['patientSessionActive'])) {
                             <div class="col-md-4">
                                 <div class="d-flex align-items-center">
                                     <h5 class="mb-0">Regd No : <?= $activePatientDataResult['regdNo'] ?></h5>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center">
+                                    <h5 class="mb-0">Record Date : <?= $recordDate ?></h5>
                                 </div>
                             </div>
                         </div>
@@ -280,16 +302,33 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-form-label" for="dob">Date of Birth</label>
                                                             <input type="date" class="form-control" id="dob" name="dob" value="<?= $dob; ?>" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label class="col-form-label" for="phone">Phone Number</label>
                                                             <input type="number" class="form-control" id="phone" name="phone" value="<?= $activePatientDataResult['phone'] ?>" readonly required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="col-form-label" for="">Batch</label>
+                                                        <div class="row m-auto">
+                                                            <div class="form-check mx-2">
+                                                                <input class="form-check-input" type="radio" name="batch" value="Morning" <?= ($patientBatch == 'Morning') ? 'checked' : '' ?> required>
+                                                                <label class="form-check-label" for="">
+                                                                    Morning
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check mx-2">
+                                                                <input class="form-check-input" type="radio" name="batch" value="Evening" <?= ($patientBatch == 'Evening') ? 'checked' : '' ?> required>
+                                                                <label class="form-check-label" for="">
+                                                                    Evening
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -304,111 +343,139 @@ if (isset($_SESSION['patientSessionActive'])) {
                                         </div>
                                         <h5 class="card-title">Other Details</h5>
                                         <div class="row">
-                                            <div class="col-xl-6">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="occupation">Occupation</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="occupation" name="occupation" value="<?= $occupation; ?>">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Occupation</label>
+                                                            <input type="text" class="form-control" name="occupation" value="<?= $occupation; ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Nature of Daily Work</label>
+                                                            <input type="text" class="form-control" name="natureOfDailyWork" value="<?= $natureOfDailyWork; ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="natureOfWork">Nature of Daily Work</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="natureOfWork" name="natureOfDailyWork" value="<?= $natureOfDailyWork; ?>">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Exercises Done Before</label>
+                                                            <input type="text" class="form-control" name="execriseDoneBefore" value="<?= $execriseDoneBefore; ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Nature of Present Exercise</label>
+                                                            <input type="text" class="form-control" name="natureofPresentExercise" value="<?= $natureofPresentExercise; ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="exercisesdone">Exercises Done Before</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="exercisesdone" name="execriseDoneBefore" value="<?= $execriseDoneBefore; ?>">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Past Surgeries</label>
+                                                            <input type="text" class="form-control" name="pastSurgeries" value="<?= $pastSurgeries; ?>">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="natureOfExercise">Nature of Present Exercise</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="natureOfExercise" name="natureofPresentExercise" value="<?= $natureofPresentExercise; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="pastSurgeries">Past Surgeries</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="pastSurgeries" name="pastSurgeries" value="<?= $pastSurgeries; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="dateOfSurgery">Date of Surgery</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="date" class="form-control" id="dateOfSurgery" name="dateOfSurgery" value="<?= $dateOfSurgery; ?>">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Date of Surgery</label>
+                                                            <input type="date" class="form-control" name="dateOfSurgery" value="<?= $dateOfSurgery; ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-xl-6">
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="pastMajorilness">Past Major Illness</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="pastMajorilness" name="pastMajorIllnesses" value="<?= $pastMajorIllnesses; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="presentPhysicalComplaints">Present Physical Complaints</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="presentPhysicalComplaints" name="presentPhysicalComplaints" value="<?= $presentPhysicalComplaints; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="ongoingTreatment">Any Treatment Going on</label>
-                                                    <div class="col-lg-9">
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="ongoingTreatment" id="treatment_yes" value="1">
-                                                            <label class="form-check-label" for="treatment_yes">
-                                                                Yes
-                                                            </label>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Past Major Illness</label>
+                                                            <input type="text" class="form-control" name="pastMajorIllnesses" value="<?= $pastMajorIllnesses; ?>">
                                                         </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="ongoingTreatment" id="treatment_no" value="0" checked>
-                                                            <label class="form-check-label" for="treatment_no">
-                                                                No
-                                                            </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Present Physical Complaints</label>
+                                                            <input type="text" class="form-control" name="presentPhysicalComplaints" value="<?= $presentPhysicalComplaints; ?>">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="doctorName">Name of the Doctor</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" id="doctorName" name="doctorName" value="<?= $doctorName; ?>">
+                                                <div class="row">
+                                                    <div class="col-md-12 form-group">
+                                                        <div class="row">
+                                                            <label class="col-md-12 col-form-label" for="ongoingTreatment">Any Treatment Going on</label>
+                                                            <div class="col-md-12 mt-2 mb-3">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="radio mx-2 col-3">
+                                                                        <label>
+                                                                            <input class="form-check-input" type="radio" name="ongoingTreatment" value="Yes" required>Yes
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="radio mx-2 col-3">
+                                                                        <label>
+                                                                            <input class="form-check-input" type="radio" name="ongoingTreatment" value="No" required>No
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-group row">
-                                                    <label class="col-lg-3 col-form-label" for="doctorPhone">Phone No. of the Doctor</label>
-                                                    <div class="col-lg-9">
-                                                        <input type="number" class="form-control" id="doctorPhone" name="doctorPhone" value="<?= $doctorPhone; ?>">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Name of the Doctor</label>
+                                                            <input type="text" class="form-control" name="doctorName" value="<?= $doctorName; ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-form-label">Phone No. of the Doctor</label>
+                                                            <input type="number" class="form-control" name="doctorPhone" value="<?= $doctorPhone; ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <?php
-                                            if ($updateData) {
-                                                echo '<button type="submit" class="btn btn-primary" name="updateData">Update</button>';
-                                            } else {
-                                                echo '<button type="submit" class="btn btn-primary" name="submitData">Submit</button>';
-                                            }
-                                            ?>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
+                            <div class="text-center pb-4">
+                                <?php
+                                if ($updateData) {
+                                    echo '<button type="submit" class="btn btn-primary btn-lg" name="updateData">Update</button>';
+                                } else {
+                                    echo '<button type="submit" class="btn btn-primary btn-lg" name="submitData">Submit</button>';
+                                }
+                                ?>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
         <script src="../assets/js/bootstrap.bundle.min.js"></script>
         <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="../assets/plugins/simple-calendar/jquery.simple-calendar.js"></script>
         <script src="../assets/js/calander.js"></script>
         <script src="../assets/js/script.js"></script>
+        <script>
+            $('document').ready(function() {
+                setTimeout(() => {
+                    $("input[name=ongoingTreatment][value='<?= $ongoingTreatment ?>']").prop('checked', true);
+                }, 300);
+            })
+        </script>
+
+        <script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
+        </script>
 
     </body>
 

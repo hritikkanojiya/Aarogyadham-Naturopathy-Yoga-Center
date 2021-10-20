@@ -39,7 +39,7 @@ if (isset($_POST['register'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Hospital - Registration</title>
+    <title>Aarogyadham-Naturopathy-Yoga-Center | Patient Registration</title>
 
     <link rel="shortcut icon" href="../assets/img/logo-favicon.png">
 

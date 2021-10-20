@@ -1,10 +1,13 @@
 <?php
 session_start();
 include('../assets/php/db_conn.php');
+date_default_timezone_set('Asia/Kolkata');
 
 $patientGender = $_SESSION['patientGender'];
 $patientFullName = $_SESSION['patientFullName'];
 $patientUserId = $_SESSION['patientUserId'];
+$recordDate = date('m-d-Y');
+
 ?>
 
 
@@ -15,7 +18,7 @@ $patientUserId = $_SESSION['patientUserId'];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>Hospital - Ladies Details</title>
+    <title>Aarogyadham-Naturopathy-Yoga-Center | Ladies Only Details</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -46,10 +49,10 @@ $patientUserId = $_SESSION['patientUserId'];
         <div class="header">
 
             <div class="header-left">
-                <a href="dashboard.php.html" class="logo">
+                <a href="dashboard.php" class="logo">
                     <img src="../assets/img/logo-favicon.png" alt="Logo">
                 </a>
-                <a href="dashboard.php.html" class="logo logo-small">
+                <a href="dashboard.php" class="logo logo-small">
                     <img src="../assets/img/logo-favicon.png" alt="Logo" width="30" height="30">
                 </a>
             </div>
@@ -74,8 +77,8 @@ $patientUserId = $_SESSION['patientUserId'];
                     <ul>
                         <li class="menu-title"> <span>Main</span>
                         </li>
-                        <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
-                        </li>
+                        <!-- <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
+                        </li> -->
                         <li class=""><a href="recordsheet.php"><i class="feather-file-text"></i> <span>Record Sheet</span></a>
                         </li>
                         <li class=""><a href="illness.php"><i class="feather-info"></i> <span>Illness Information</span></a>
@@ -94,8 +97,8 @@ $patientUserId = $_SESSION['patientUserId'];
                     </li>
                     <li class="menu-title"> <span>Account</span>
                     </li>
-                    <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
-                    </li>
+                    <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
+                    </li> -->
                     <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                     </li>
                     </ul>
