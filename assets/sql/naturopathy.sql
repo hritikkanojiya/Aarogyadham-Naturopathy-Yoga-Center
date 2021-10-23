@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3308
--- Generation Time: Oct 13, 2021 at 07:42 AM
+-- Generation Time: Oct 23, 2021 at 06:23 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -24,12 +24,33 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `adminregistration`
+--
+
+CREATE TABLE `adminregistration` (
+  `id` int(11) NOT NULL,
+  `fullName` varchar(128) NOT NULL,
+  `phone` varchar(128) NOT NULL,
+  `password` varchar(512) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `adminregistration`
+--
+
+INSERT INTO `adminregistration` (`id`, `fullName`, `phone`, `password`) VALUES
+(1, 'Hritik Kanojiya', '7506211129', '111');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `healthquestionnaire`
 --
 
 CREATE TABLE `healthquestionnaire` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
   `q1` varchar(20) NOT NULL COMMENT 'Do you feel fresh after getting up in the morning',
   `q2` varchar(20) NOT NULL COMMENT 'Do you sleep in the afternoon',
   `q3` varchar(20) NOT NULL COMMENT 'Anything specially required for night sleep',
@@ -62,12 +83,13 @@ CREATE TABLE `healthquestionnaire` (
 CREATE TABLE `illnessinformation` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
-  `q1` varchar(600) NOT NULL COMMENT 'How long are you suffering from the present illness ?',
-  `q2` varchar(600) NOT NULL COMMENT 'Is it related to any specific incident ? If so, please state the incident.',
-  `q3` varchar(600) NOT NULL COMMENT 'State, in detail the nature of complaints being experienced by you',
-  `q4` varchar(600) NOT NULL COMMENT 'Details of present treatment',
-  `q5` varchar(600) NOT NULL COMMENT 'Details of various medical tests Conducted and their results.',
-  `q6` varchar(600) NOT NULL COMMENT 'Recommendation of your Doctor.',
+  `recordDate` varchar(20) NOT NULL,
+  `q1` longtext NOT NULL COMMENT 'How long are you suffering from the present illness ?',
+  `q2` longtext NOT NULL COMMENT 'Is it related to any specific incident ? If so, please state the incident.',
+  `q3` longtext NOT NULL COMMENT 'State, in detail the nature of complaints being experienced by you',
+  `q4` longtext NOT NULL COMMENT 'Details of present treatment',
+  `q5` longtext NOT NULL COMMENT 'Details of various medical tests Conducted and their results.',
+  `q6` longtext NOT NULL COMMENT 'Recommendation of your Doctor.',
   `is_delete` int(11) NOT NULL DEFAULT 0 COMMENT '1=deleted'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -80,6 +102,7 @@ CREATE TABLE `illnessinformation` (
 CREATE TABLE `ladiesonly` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
   `q1` varchar(20) NOT NULL COMMENT 'Menses',
   `q2` varchar(256) NOT NULL COMMENT 'How Irregular',
   `q3` varchar(20) NOT NULL COMMENT 'Discharge',
@@ -103,6 +126,13 @@ CREATE TABLE `ladiesonly` (
   `q21` varchar(256) NOT NULL COMMENT 'Any Other Information'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `ladiesonly`
+--
+
+INSERT INTO `ladiesonly` (`id`, `patientId`, `recordDate`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20`, `q21`) VALUES
+(4, 14, '10-20-2021', 'Regular', 'abc', 'Less', 'Without foul smell', 'Yes', 'abcsas', 'Yes', 'abc', 'abcabc', 'abcabc', 'abcabc', 'Married', '2021-10-20', 'abcabc', 'abcabc', 'abc', 'abc', 'abc', 'abc', 'abc', 'abc');
+
 -- --------------------------------------------------------
 
 --
@@ -112,31 +142,26 @@ CREATE TABLE `ladiesonly` (
 CREATE TABLE `patientdetails` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
+  `batch` varchar(20) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
   `fullName` varchar(128) NOT NULL,
   `gender` varchar(10) NOT NULL,
   `address` varchar(512) NOT NULL,
-  `age` int(3) NOT NULL,
-  `dob` date NOT NULL,
+  `age` int(11) NOT NULL,
+  `dob` varchar(20) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `occupation` varchar(64) NOT NULL,
   `natureOfDailyWork` varchar(256) NOT NULL,
   `execriseDoneBefore` varchar(256) NOT NULL,
   `natureofPresentExercise` varchar(256) NOT NULL,
   `pastSurgeries` varchar(256) NOT NULL,
+  `dateOfSurgery` varchar(20) NOT NULL,
   `pastMajorIllnesses` varchar(256) NOT NULL,
   `presentPhysicalComplaints` varchar(256) NOT NULL,
-  `ongoingTreatment` tinyint(1) NOT NULL COMMENT '0 => No, 1 => Yes',
+  `ongoingTreatment` varchar(20) NOT NULL,
   `doctorName` varchar(128) NOT NULL,
   `doctorPhone` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `patientdetails`
---
-
-INSERT INTO `patientdetails` (`id`, `patientId`, `fullName`, `gender`, `address`, `age`, `dob`, `phone`, `occupation`, `natureOfDailyWork`, `execriseDoneBefore`, `natureofPresentExercise`, `pastSurgeries`, `pastMajorIllnesses`, `presentPhysicalComplaints`, `ongoingTreatment`, `doctorName`, `doctorPhone`) VALUES
-(5, 12, 'Hritik Kanojiya', 'Male', 'abcd', 21, '2001-02-13', '7506211129', 'Study', 'abcd', 'abcd', 'abcd', 'abcd', 'abcd', 'abcd', 1, 'abcd', ''),
-(6, 12, 'Hritik Kanojiya', 'Male', 'abcd', 21, '2001-02-13', '7506211129', 'Study', 'abcd', 'abcd', 'abcd', 'abcd', 'abcd', 'abcd', 1, 'abcd', '');
 
 -- --------------------------------------------------------
 
@@ -158,7 +183,7 @@ CREATE TABLE `patientregistration` (
 --
 
 INSERT INTO `patientregistration` (`id`, `regdNo`, `fullName`, `gender`, `phone`, `password`) VALUES
-(12, 'ANYC4974', 'Hritik Kanojiya', 'Male', '7506211129', '123456789');
+(14, 'ANYC7448', 'Hritik Kanojiya', 'Female', '7506211129', '111');
 
 -- --------------------------------------------------------
 
@@ -169,6 +194,7 @@ INSERT INTO `patientregistration` (`id`, `regdNo`, `fullName`, `gender`, `phone`
 CREATE TABLE `physicalexamination` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
   `q1` varchar(20) NOT NULL COMMENT 'Examination Date',
   `q2` varchar(20) NOT NULL COMMENT 'Height (cms)',
   `q3` varchar(20) NOT NULL COMMENT 'Chest (After Inhalation) in cms',
@@ -191,6 +217,49 @@ CREATE TABLE `physicalexamination` (
   `q20` varchar(512) NOT NULL COMMENT 'Important Instruction to the patient'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `physicalexamination`
+--
+
+INSERT INTO `physicalexamination` (`id`, `patientId`, `recordDate`, `q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20`) VALUES
+(22, 14, '10-23-2021', '', '', '', '', '', 'Normal', 'Fat', 'Vaat', '', '', '', '2021-10-15', 'er', 'erere', '', 'erer', 'rer', '', '[\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reportsdata`
+--
+
+CREATE TABLE `reportsdata` (
+  `id` int(11) NOT NULL,
+  `patientId` int(11) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
+  `maleJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`maleJson`)),
+  `femaleJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`femaleJson`)),
+  `datesBeforeJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`datesBeforeJson`)),
+  `datesAfterJson` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`datesAfterJson`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `therapistregistration`
+--
+
+CREATE TABLE `therapistregistration` (
+  `id` int(11) NOT NULL,
+  `fullName` varchar(128) NOT NULL,
+  `phone` varchar(128) NOT NULL,
+  `password` varchar(512) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `therapistregistration`
+--
+
+INSERT INTO `therapistregistration` (`id`, `fullName`, `phone`, `password`) VALUES
+(1, 'Hritik Kanojiya', '7506211129', '123');
+
 -- --------------------------------------------------------
 
 --
@@ -200,6 +269,7 @@ CREATE TABLE `physicalexamination` (
 CREATE TABLE `treatmentprocedure` (
   `id` int(11) NOT NULL,
   `patientId` int(11) NOT NULL,
+  `recordDate` varchar(20) NOT NULL,
   `q1` varchar(64) NOT NULL COMMENT 'Pranayam',
   `q2` varchar(64) NOT NULL COMMENT 'Purak + Bhramari Rechak',
   `q3` varchar(64) NOT NULL COMMENT 'Suraya Mantra Japa',
@@ -222,6 +292,13 @@ CREATE TABLE `treatmentprocedure` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `adminregistration`
+--
+ALTER TABLE `adminregistration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone` (`phone`);
 
 --
 -- Indexes for table `healthquestionnaire`
@@ -261,6 +338,19 @@ ALTER TABLE `physicalexamination`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `reportsdata`
+--
+ALTER TABLE `reportsdata`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `therapistregistration`
+--
+ALTER TABLE `therapistregistration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phone` (`phone`);
+
+--
 -- Indexes for table `treatmentprocedure`
 --
 ALTER TABLE `treatmentprocedure`
@@ -271,46 +361,64 @@ ALTER TABLE `treatmentprocedure`
 --
 
 --
+-- AUTO_INCREMENT for table `adminregistration`
+--
+ALTER TABLE `adminregistration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `healthquestionnaire`
 --
 ALTER TABLE `healthquestionnaire`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `illnessinformation`
 --
 ALTER TABLE `illnessinformation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ladiesonly`
 --
 ALTER TABLE `ladiesonly`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `patientdetails`
 --
 ALTER TABLE `patientdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `patientregistration`
 --
 ALTER TABLE `patientregistration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `physicalexamination`
 --
 ALTER TABLE `physicalexamination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `reportsdata`
+--
+ALTER TABLE `reportsdata`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `therapistregistration`
+--
+ALTER TABLE `therapistregistration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `treatmentprocedure`
 --
 ALTER TABLE `treatmentprocedure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
