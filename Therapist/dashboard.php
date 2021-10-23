@@ -1,11 +1,11 @@
 <?php
 error_reporting(0);
 session_start();
-if (isset($_SESSION['adminSessionActive'])) {
+if (isset($_SESSION['therapistSessionActive'])) {
     include('../assets/php/db_conn.php');
 
-    $adminFullName = $_SESSION['adminFullName'];
-    $adminUserId = $_SESSION['adminUserId'];
+    $therapistFullName = $_SESSION['therapistFullName'];
+    $therapistUserId = $_SESSION['therapistUserId'];
 
     $patientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
 ?>
@@ -89,10 +89,8 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
-                            <li class=""><a href="therapistData.php"><i class="feather-user"></i> <span>Therapist Data</span></a>
-                            </li>
-                            <li class=""><a href="patientsData.php"><i class="feather-users"></i> <span>Patients Data</span></a>
-                            </li>
+                            <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
+                            </li> -->
                             <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                             </li>
                         </ul>
@@ -106,7 +104,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0">Welcome, <?= $adminFullName; ?></h5>
+                                    <h5 class="card-title mb-0">Welcome, <?= $therapistFullName; ?></h5>
                                 </div>
                             </div>
                         </div>

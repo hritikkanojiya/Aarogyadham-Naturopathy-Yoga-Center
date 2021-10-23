@@ -60,53 +60,6 @@ if (mysqli_num_rows($PSD) > 0) {
     $UpdateDataId = $PSDResult['id'];
 }
 
-if (isset($_POST['submitData'])) {
-    $recordDate = date('m-d-Y');
-    $q1 = $_POST['q1'];
-    $q2 = $_POST['q2'];
-    $q3 = $_POST['q3'];
-    $q4 = $_POST['q4'];
-    $q5 = $_POST['q5'];
-    $q6 = $_POST['q6'];
-    $q7 = $_POST['q7'];
-    $q8 = $_POST['q8'];
-    $q9 = $_POST['q9'];
-    $q10 = $_POST['q10'];
-    $q11 = $_POST['q11'];
-    $q12 = $_POST['q12'];
-    $q13 = $_POST['q13'];
-    $q14 = $_POST['q14'];
-    $q15 = $_POST['q15'];
-    $q16 = $_POST['q16'];
-    $q17 = $_POST['q17'];
-    $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17')";
-    $insertSQL = mysqli_query($naturopathyCon, $sql);
-    ($insertSQL) ? header('location:processSuggested.php?status=100') : header('location:processSuggested.php');
-}
-
-if (isset($_POST['updateData'])) {
-    $q1 = $_POST['q1'];
-    $q2 = $_POST['q2'];
-    $q3 = $_POST['q3'];
-    $q4 = $_POST['q4'];
-    $q5 = $_POST['q5'];
-    $q6 = $_POST['q6'];
-    $q7 = $_POST['q7'];
-    $q8 = $_POST['q8'];
-    $q9 = $_POST['q9'];
-    $q10 = $_POST['q10'];
-    $q11 = $_POST['q11'];
-    $q12 = $_POST['q12'];
-    $q13 = $_POST['q13'];
-    $q14 = $_POST['q14'];
-    $q15 = $_POST['q15'];
-    $q16 = $_POST['q16'];
-    $q17 = $_POST['q17'];
-
-    $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
-    $updateSQL = mysqli_query($naturopathyCon, $sql);
-    ($updateSQL) ? header('location:processSuggested.php?status=101') : header('location:processSuggested.php');
-}
 ?>
 
 
@@ -144,33 +97,6 @@ if (isset($_POST['updateData'])) {
 </head>
 
 <body>
-    <?php
-    if ($dataInserted) {
-        echo "<script>
-                Swal.fire({
-                icon: 'success',
-                title: 'Data Inserted!',
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                })
-            </script>";
-        $error = FALSE;
-    }
-
-    if ($dataUpdated) {
-        echo "<script>
-                Swal.fire({
-                icon: 'success',
-                title: 'Data Updated!',
-                timer: 1500,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                })
-            </script>";
-        $error = FALSE;
-    }
-    ?>
 
     <div class="main-wrapper">
 
@@ -227,7 +153,7 @@ if (isset($_POST['updateData'])) {
                         </li>
                         <!-- <li class=""><a href="profile.php"><i class="feather-list"></i> <span>My Profile</span></a>
                         </li> -->
-                        <li class=""><a href="resetPass.php"><i class="feather-list"></i> <span>Reset Password</span></a>
+                        <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                         </li>
                     </ul>
                 </div>
@@ -256,7 +182,7 @@ if (isset($_POST['updateData'])) {
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="d-flex align-items-center">
-                                <h5 class="card-title mb-0">Process Suggested for Treatment</h5>
+                                <h5 class="card-title mb-0">Process Suggested for Treatment (To be Filled by Therapist)</h5>
                             </div>
                         </div>
                     </div>
@@ -299,25 +225,25 @@ if (isset($_POST['updateData'])) {
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q1" placeholder="" value="<?= $q1; ?>">
+                                                        <input type="text" class="form-control" name="q1" placeholder="" value="<?= $q1; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Purak + Bhramari Rechak</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q2" placeholder="" value="<?= $q2; ?>">
+                                                        <input type="text" class="form-control" name="q2" placeholder="" value="<?= $q2; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Suraya Mantra Japa</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q3" placeholder="" value="<?= $q3; ?>">
+                                                        <input type="text" class="form-control" name="q3" placeholder="" value="<?= $q3; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Bharmari Pranayam</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q4" placeholder="" value="<?= $q4; ?>">
+                                                        <input type="text" class="form-control" name="q4" placeholder="" value="<?= $q4; ?>" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,49 +273,49 @@ if (isset($_POST['updateData'])) {
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Jalaneti (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q5" placeholder="" value="<?= $q5; ?>">
+                                                        <input type="text" class="form-control" name="q5" placeholder="" value="<?= $q5; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">L. S. P (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q6" placeholder="" value="<?= $q6; ?>">
+                                                        <input type="text" class="form-control" name="q6" placeholder="" value="<?= $q6; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Vaman (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q7" placeholder="" value="<?= $q7; ?>">
+                                                        <input type="text" class="form-control" name="q7" placeholder="" value="<?= $q7; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> F. S. P. (Times in a Week)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q8" placeholder="" value="<?= $q8; ?>">
+                                                        <input type="text" class="form-control" name="q8" placeholder="" value="<?= $q8; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Hot fomentation and Massage (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q9" placeholder="" value="<?= $q9; ?>">
+                                                        <input type="text" class="form-control" name="q9" placeholder="" value="<?= $q9; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Local steam application (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q10" placeholder="" value="<?= $q10; ?>">
+                                                        <input type="text" class="form-control" name="q10" placeholder="" value="<?= $q10; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for="">Steambath (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q11" placeholder="" value="<?= $q11; ?>">
+                                                        <input type="text" class="form-control" name="q11" placeholder="" value="<?= $q11; ?>" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label class="" for=""> Tail / Sanjivan Basti (Times)</label>
                                                     <div class="">
-                                                        <input type="text" class="form-control" name="q12" placeholder="" value="<?= $q12; ?>">
+                                                        <input type="text" class="form-control" name="q12" placeholder="" value="<?= $q12; ?>" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -407,11 +333,11 @@ if (isset($_POST['updateData'])) {
                                     <div class="row">
                                         <div class="col-12 homeMessage">
                                             <div class="form-group">
-                                                Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>"> daily
-                                                <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>"> Times. Before sleep Omkar Jap daily
-                                                <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>"> minutes.
+                                                Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>" disabled> daily
+                                                <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>" disabled> Times. Before sleep Omkar Jap daily
+                                                <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>" disabled> minutes.
                                                 <div class="" style="display: inline-block;">
-                                                    ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>"> times)
+                                                    ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>" disabled> times)
                                                 </div>
                                                 hot foamatation after applying Sanjivan oil (Daily 2 times)
                                             </div>
@@ -440,7 +366,7 @@ if (isset($_POST['updateData'])) {
                                                             <li>Plenty of Fruits / Leafy vegetables soup.</li>
                                                             <li>To consume more natural food.</li>
                                                             <li><label class="">Yogamrit Daily </label>
-                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>"> <label class=""> times (in lieu tea) </label>
+                                                                <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>" disabled> <label class=""> times (in lieu tea) </label>
                                                             </li>
                                                         </ol>
                                                     </div>
@@ -472,18 +398,6 @@ if (isset($_POST['updateData'])) {
                                 All the above <strong>Practices</strong> have been properly explained to me and I hereby
                                 give consent for their application in my case. (Acknowledged By Patient)
                             </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center pb-5">
-                        <div class="text-center">
-                            <?php
-                            if ($updateData) {
-                                echo '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
-                            } else {
-                                echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
-                            }
-                            ?>
-
                         </div>
                     </div>
                 </form>

@@ -213,7 +213,7 @@ if (isset($_SESSION['patientSessionActive'])) {
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0">Information About The Illness</h5>
+                                    <h5 class="card-title mb-0">Information About The Illness (To be Filled by Patient)</h5>
                                 </div>
                             </div>
                         </div>

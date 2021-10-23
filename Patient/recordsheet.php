@@ -234,7 +234,7 @@ if (isset($_SESSION['patientSessionActive'])) {
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0">Patient Record Sheet</h5>
+                                    <h5 class="card-title mb-0">Patient Record Sheet (To be Filled by Patient)</h5>
                                 </div>
                             </div>
                         </div>
@@ -273,18 +273,18 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                 <div class="row">
                                                     <div class="col-md-5">
                                                         <div class="form-group">
-                                                            <label class="col-form-label" for="fullName">Full Name</label>
+                                                            <label class="col-form-label" for="fullName">Full Name <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" id="fullName" value="<?= $activePatientDataResult['fullName']; ?>" required disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="form-group">
-                                                            <label class="col-form-label" for="age">Age</label>
+                                                            <label class="col-form-label" for="age">Age <span class="text-danger">*</span></label>
                                                             <input type="number" class="form-control" id="age" name="age" value="<?= $age; ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label class="col-form-label" for="">Gender</label>
+                                                        <label class="col-form-label" for="">Gender <span class="text-danger">*</span></label>
                                                         <div class="row m-auto">
                                                             <div class="form-check mx-2">
                                                                 <input class="form-check-input" type="radio" name="gender" id="gender" value="Male" <?= ($patientGender == 'Male') ? 'checked' : '' ?> disabled>
@@ -304,18 +304,18 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label class="col-form-label" for="dob">Date of Birth</label>
+                                                            <label class="col-form-label" for="dob">Date of Birth <span class="text-danger">*</span></label>
                                                             <input type="date" class="form-control" id="dob" name="dob" value="<?= $dob; ?>" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label class="col-form-label" for="phone">Phone Number</label>
+                                                            <label class="col-form-label" for="phone">Phone Number <span class="text-danger">*</span></label>
                                                             <input type="number" class="form-control" id="phone" name="phone" value="<?= $activePatientDataResult['phone'] ?>" readonly required>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label class="col-form-label" for="">Batch</label>
+                                                        <label class="col-form-label" for="">Batch <span class="text-danger">*</span></label>
                                                         <div class="row m-auto">
                                                             <div class="form-check mx-2">
                                                                 <input class="form-check-input" type="radio" name="batch" value="Morning" <?= ($patientBatch == 'Morning') ? 'checked' : '' ?> required>
@@ -336,7 +336,7 @@ if (isset($_SESSION['patientSessionActive'])) {
                                             <div class="col-md-6">
                                                 <h5 class="card-title">Address Details</h5>
                                                 <div class="form-group">
-                                                    <label class="col-form-label" for="address"> Full Address</label>
+                                                    <label class="col-form-label" for="address"> Full Address <span class="text-danger">*</span></label>
                                                     <textarea class="form-control" name="address" id="address" cols="" rows="6" required><?= $address; ?></textarea>
                                                 </div>
                                             </div>
@@ -405,7 +405,7 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                 <div class="row">
                                                     <div class="col-md-12 form-group">
                                                         <div class="row">
-                                                            <label class="col-md-12 col-form-label" for="ongoingTreatment">Any Treatment Going on</label>
+                                                            <label class="col-md-12 col-form-label" for="ongoingTreatment">Any Treatment Going on <span class="text-danger">*</span></label>
                                                             <div class="col-md-12 mt-2 mb-3">
                                                                 <div class="row justify-content-center">
                                                                     <div class="radio mx-2 col-3">
@@ -439,8 +439,9 @@ if (isset($_SESSION['patientSessionActive'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="text-right"><span class="text-danger">*</span> marked fields represents as required</div>
                             <div class="text-center pb-4">
                                 <?php
                                 if ($updateData) {

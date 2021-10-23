@@ -7,7 +7,22 @@ if (isset($_SESSION['adminSessionActive'])) {
     $adminFullName = $_SESSION['adminFullName'];
     $adminUserId = $_SESSION['adminUserId'];
 
-    $patientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
+    $therapistData = mysqli_query($naturopathyCon, "SELECT * FROM `therapistregistration`");
+
+    if (isset($_POST['addTherapist'])) {
+        $fname = $_POST['fname'];
+        $phone = $_POST['phoneno'];
+        $pass = $_POST['password'];
+
+        $add = mysqli_query($naturopathyCon, "INSERT INTO `therapistregistration` (`id`, `fullName`, `phone`, `password`) VALUES (NULL, '$fname', '$phone', '$pass')");
+        ($add) ? header('location:therapistData.php?status=100') : header('location:therapistData.php');
+    }
+
+    if(isset($_GET['delTherapist'])){
+        $id = $_GET['delTherapist'];
+        $delete = mysqli_query($naturopathyCon, "DELETE FROM `therapistregistration` WHERE `therapistregistration`.`id` = '$id'");
+        ($delete) ? header('location:therapistData.php?status=101') : header('location:therapistData.php');
+    }
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -15,7 +30,7 @@ if (isset($_SESSION['adminSessionActive'])) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Aarogyadham-Naturopathy-Yoga-Center | Therapist Dashboard</title>
+        <title>Aarogyadham-Naturopathy-Yoga-Center | Therapist Data Dashboard</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -34,10 +49,37 @@ if (isset($_SESSION['adminSessionActive'])) {
 
         <link rel="stylesheet" href="../assets/css/appstyle.css">
 
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </head>
 
     <body>
-
+        <?php
+        if ($_GET['status'] == 100) {
+            echo "<script>
+                Swal.fire({
+                icon: 'success',
+                title: 'Data Inserted!',
+                timer: 1000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                })
+            </script>";
+            $error = FALSE;
+        }
+        if ($_GET['status'] == 101) {
+            echo "<script>
+                Swal.fire({
+                icon: 'success',
+                title: 'Record Deleted!',
+                timer: 1000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                })
+            </script>";
+            $error = FALSE;
+        }
+        ?>
         <div class="main-wrapper">
 
             <div class="header">
@@ -71,7 +113,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                         <ul>
                             <li class="menu-title"> <span>Main</span>
                             </li>
-                            <li class="active"> <a href="dashboard.php"><i class="feather-home"></i><span class="shape1"></span><span class="shape2"></span><span>Dashboard</span></a>
+                            <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
                             </li>
                             <li class=""><a href="recordsheet.php?centralView=True"><i class="feather-file-text"></i> <span>Record Sheet</span></a>
                             </li>
@@ -89,7 +131,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
-                            <li class=""><a href="therapistData.php"><i class="feather-user"></i> <span>Therapist Data</span></a>
+                            <li class="active"><a href="therapistData.php"><i class="feather-user"></i><span class="shape1"></span><span class="shape2"></span> <span>Therapist Data</span></a>
                             </li>
                             <li class=""><a href="patientsData.php"><i class="feather-users"></i> <span>Patients Data</span></a>
                             </li>
@@ -105,17 +147,26 @@ if (isset($_SESSION['adminSessionActive'])) {
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-between">
                                     <h5 class="card-title mb-0">Welcome, <?= $adminFullName; ?></h5>
+                                    <button class="btn btn-primary d-none d-lg-block" data-toggle="modal" data-target="#addTherapist">Add New Therapist</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
+                                Please do not <b>Share these Passwords</b> with Anyone. <b>Keep it Confidential.</b>
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
+                                Only Share it with <b>Respective Therapist</b> & ask them to<b> Reset there Passwords </b> once they Log In to their<b> Main Account.</b>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Patients Data</h4>
+                                    <h4 class="card-title">Therapist Data</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -123,29 +174,23 @@ if (isset($_SESSION['adminSessionActive'])) {
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Sr.</th>
-                                                    <th>RegdNo</th>
                                                     <th>Full Name</th>
-                                                    <th>Gender</th>
                                                     <th>Contact No.</th>
-                                                    <th>Reports</th>
+                                                    <th>Password</th>
+                                                    <th>Delete Record</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $output = '';
                                                 $count = 1;
-                                                while ($patientDataArray = mysqli_fetch_array($patientData)) {
+                                                while ($therapistDataArray = mysqli_fetch_array($therapistData)) {
                                                     $output .= '<tr>';
                                                     $output .= '<td>' . $count . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['regdNo'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['fullName'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['gender'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['phone'] . '</td>';
-                                                    $output .= '<td class="text-center">';
-                                                    $output .= '<a href="recordsheet.php?patientID=' . $patientDataArray['id'] . '"><button type="button" class="btn btn-rounded btn-outline-success">';
-                                                    $output .= 'View Details';
-                                                    $output .= '</button></a>';
-                                                    $output .= '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['fullName'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['phone'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['password'] . '</td>';
+                                                    $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("therapistData.php?delTherapist='.$therapistDataArray['id'].'","_parent")>Delete</button></td>';
                                                     $output .= '</tr>';
                                                     $count++;
                                                 }
@@ -155,6 +200,46 @@ if (isset($_SESSION['adminSessionActive'])) {
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="addTherapist" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Therapist Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST" action="">
+                                    <div class="modal-body">
+                                        <div class="loginbox">
+                                            <div class="login-right">
+                                                <div class="login-right-wrap">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="phoneno">Full Name</label>
+                                                        <input type="text" class="form-control" id="phoneno" name="fname" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="phoneno">Phone No.</label>
+                                                        <input type="tel" class="form-control" id="phoneno" name="phoneno" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="password">Password</label>
+                                                        <div class="pass-group">
+                                                            <input type="password" class="form-control pass-input" id="password" name="password" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger mx-5" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success mx-5" name="addTherapist">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

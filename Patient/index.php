@@ -88,7 +88,7 @@ if (isset($_POST['login'])) {
                                 <div class="form-group mt-3">
                                     <div class="row">
                                         <div class="m-auto">
-                                            <a class="forgot-link" href="forgot-password.html">Forgot Password ?</a>
+                                            <a class="forgot-link" href="../">Go Back</a>
                                         </div>
                                     </div>
                                 </div>

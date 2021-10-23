@@ -7,7 +7,7 @@ if (isset($_SESSION['adminSessionActive'])) {
     $adminFullName = $_SESSION['adminFullName'];
     $adminUserId = $_SESSION['adminUserId'];
 
-    $patientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
+    $therapistData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -15,7 +15,7 @@ if (isset($_SESSION['adminSessionActive'])) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Aarogyadham-Naturopathy-Yoga-Center | Therapist Dashboard</title>
+        <title>Aarogyadham-Naturopathy-Yoga-Center | Patients Data Dashboard</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -71,7 +71,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                         <ul>
                             <li class="menu-title"> <span>Main</span>
                             </li>
-                            <li class="active"> <a href="dashboard.php"><i class="feather-home"></i><span class="shape1"></span><span class="shape2"></span><span>Dashboard</span></a>
+                            <li class=""> <a href="dashboard.php"><i class="feather-home"></i><span>Dashboard</span></a>
                             </li>
                             <li class=""><a href="recordsheet.php?centralView=True"><i class="feather-file-text"></i> <span>Record Sheet</span></a>
                             </li>
@@ -91,7 +91,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class=""><a href="therapistData.php"><i class="feather-user"></i> <span>Therapist Data</span></a>
                             </li>
-                            <li class=""><a href="patientsData.php"><i class="feather-users"></i> <span>Patients Data</span></a>
+                            <li class="active"><a href="patientsData.php"><i class="feather-users"></i> <span class="shape1"></span><span class="shape2"></span><span>Patients Data</span></a>
                             </li>
                             <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                             </li>
@@ -112,6 +112,14 @@ if (isset($_SESSION['adminSessionActive'])) {
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
+                                Please do not <b>Share these Passwords</b> with Anyone. <b>Keep it Confidential.</b>
+                            </div>
+                            <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
+                                Only Share it with <b>Respective Patients</b> & ask them to<b> Reset there Passwords </b> once they Log In to their<b> Main Account.</b>
+                            </div>
+                        </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
@@ -123,29 +131,25 @@ if (isset($_SESSION['adminSessionActive'])) {
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Sr.</th>
-                                                    <th>RegdNo</th>
                                                     <th>Full Name</th>
+                                                    <th>RegdNo</th>
                                                     <th>Gender</th>
                                                     <th>Contact No.</th>
-                                                    <th>Reports</th>
+                                                    <th>Password</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 $output = '';
                                                 $count = 1;
-                                                while ($patientDataArray = mysqli_fetch_array($patientData)) {
+                                                while ($therapistDataArray = mysqli_fetch_array($therapistData)) {
                                                     $output .= '<tr>';
                                                     $output .= '<td>' . $count . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['regdNo'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['fullName'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['gender'] . '</td>';
-                                                    $output .= '<td>' . $patientDataArray['phone'] . '</td>';
-                                                    $output .= '<td class="text-center">';
-                                                    $output .= '<a href="recordsheet.php?patientID=' . $patientDataArray['id'] . '"><button type="button" class="btn btn-rounded btn-outline-success">';
-                                                    $output .= 'View Details';
-                                                    $output .= '</button></a>';
-                                                    $output .= '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['fullName'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['regdNo'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['gender'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['phone'] . '</td>';
+                                                    $output .= '<td>' . $therapistDataArray['password'] . '</td>';
                                                     $output .= '</tr>';
                                                     $count++;
                                                 }
