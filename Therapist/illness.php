@@ -79,6 +79,15 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'marathi'
+                }, 'google_translate_element');
+            }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
 
     <body>
@@ -144,6 +153,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
+                <div id="google_translate_element"></div>
 
                     <!-- <div class="page-header">
                     <div class="row align-items-center">

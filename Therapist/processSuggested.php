@@ -243,7 +243,16 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
+                <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                            new google.translate.TranslateElement({
+                                pageLanguage: 'marathi'
+                            }, 'google_translate_element');
+                        }
+                    </script>
 
+                    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                    <div id="google_translate_element"></div>
                     <!-- <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -453,11 +462,11 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                             <div class="row">
                                                 <div class="col-12 homeMessage">
                                                     <div class="form-group">
-                                                        Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>" required> daily
-                                                        <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>" required> Times. Before sleep Omkar Jap daily
-                                                        <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>" required> minutes.
+                                                        Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>"> daily
+                                                        <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>" > Times. Before sleep Omkar Jap daily
+                                                        <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>" > minutes.
                                                         <div class="" style="display: inline-block;">
-                                                            ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>" required> times)
+                                                            ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>" > times)
                                                         </div>
                                                         hot foamatation after applying Sanjivan oil (Daily 2 times)
                                                     </div>
@@ -486,7 +495,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                                                     <li>Plenty of Fruits / Leafy vegetables soup.</li>
                                                                     <li>To consume more natural food.</li>
                                                                     <li><label class="">Yogamrit Daily </label>
-                                                                        <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>" required> <label class=""> times (in lieu tea) </label>
+                                                                        <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>" > <label class=""> times (in lieu tea) </label>
                                                                     </li>
                                                                 </ol>
                                                             </div>

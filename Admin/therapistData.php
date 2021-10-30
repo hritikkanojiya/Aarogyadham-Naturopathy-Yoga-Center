@@ -18,7 +18,7 @@ if (isset($_SESSION['adminSessionActive'])) {
         ($add) ? header('location:therapistData.php?status=100') : header('location:therapistData.php');
     }
 
-    if(isset($_GET['delTherapist'])){
+    if (isset($_GET['delTherapist'])) {
         $id = $_GET['delTherapist'];
         $delete = mysqli_query($naturopathyCon, "DELETE FROM `therapistregistration` WHERE `therapistregistration`.`id` = '$id'");
         ($delete) ? header('location:therapistData.php?status=101') : header('location:therapistData.php');
@@ -51,6 +51,15 @@ if (isset($_SESSION['adminSessionActive'])) {
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'marathi'
+                }, 'google_translate_element');
+            }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
 
     <body>
@@ -129,6 +138,8 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
+                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <li class="active"><a href="therapistData.php"><i class="feather-user"></i><span class="shape1"></span><span class="shape2"></span> <span>Therapist Data</span></a>
@@ -144,6 +155,7 @@ if (isset($_SESSION['adminSessionActive'])) {
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
+                <div id="google_translate_element"></div>
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -182,19 +194,21 @@ if (isset($_SESSION['adminSessionActive'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $output = '';
-                                                $count = 1;
-                                                while ($therapistDataArray = mysqli_fetch_array($therapistData)) {
-                                                    $output .= '<tr>';
-                                                    $output .= '<td>' . $count . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['fullName'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['phone'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['password'] . '</td>';
-                                                    $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("therapistData.php?delTherapist='.$therapistDataArray['id'].'","_parent")>Delete</button></td>';
-                                                    $output .= '</tr>';
-                                                    $count++;
+                                                if (isset($therapistData)) {
+                                                    $output = '';
+                                                    $count = 1;
+                                                    while ($therapistDataArray = mysqli_fetch_array($therapistData)) {
+                                                        $output .= '<tr>';
+                                                        $output .= '<td>' . $count . '</td>';
+                                                        $output .= '<td>' . $therapistDataArray['fullName'] . '</td>';
+                                                        $output .= '<td>' . $therapistDataArray['phone'] . '</td>';
+                                                        $output .= '<td>' . $therapistDataArray['password'] . '</td>';
+                                                        $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("therapistData.php?delTherapist=' . $therapistDataArray['id'] . '","_parent")>Delete</button></td>';
+                                                        $output .= '</tr>';
+                                                        $count++;
+                                                    }
+                                                    echo $output;
                                                 }
-                                                echo $output;
                                                 ?>
                                             </tbody>
                                         </table>

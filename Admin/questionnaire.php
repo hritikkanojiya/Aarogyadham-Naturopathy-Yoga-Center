@@ -108,6 +108,15 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
         <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'marathi'
+                }, 'google_translate_element');
+            }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
 
     <body>
@@ -153,6 +162,8 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
+                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
@@ -170,7 +181,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-
+                <div id="google_translate_element"></div>
                     <!-- <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col-md-12">

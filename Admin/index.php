@@ -44,6 +44,15 @@ if (isset($_POST['login'])) {
 
     <link rel="stylesheet" href="../assets/css/style.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'marathi'
+                }, 'google_translate_element');
+            }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body>
@@ -62,6 +71,7 @@ if (isset($_POST['login'])) {
     }
     ?>
     <div class="main-wrapper login-body">
+    <!-- <div id="google_translate_element"></div> -->
         <div class="login-wrapper">
             <div class="container">
                 <img class="img-fluid logo-dark mb-2" width="110px" height="110px" src="../assets/img/logo-favicon.png" alt="Logo">

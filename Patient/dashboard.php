@@ -97,6 +97,16 @@ if (isset($_SESSION['patientSessionActive'])) {
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
+                <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                            new google.translate.TranslateElement({
+                                pageLanguage: 'marathi'
+                            }, 'google_translate_element');
+                        }
+                    </script>
+
+                    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                    <div id="google_translate_element"></div>
                     <div class="row">
                         <div class="col-12 col-md-6 col-lg-3 d-flex flex-wrap">
                             <div class="card detail-box1 details-box">

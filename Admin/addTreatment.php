@@ -7,7 +7,20 @@ if (isset($_SESSION['adminSessionActive'])) {
     $adminFullName = $_SESSION['adminFullName'];
     $adminUserId = $_SESSION['adminUserId'];
 
-    $therapistData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
+    $treatmentData = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentdata` WHERE `is_delete` = 0");
+
+    if (isset($_POST['addTreatment'])) {
+        $name = $_POST['name'];
+
+        $add = mysqli_query($naturopathyCon, "INSERT INTO `treatmentdata` (`id`, `name`, `is_delete`) VALUES (NULL, '$name', 0)");
+        ($add) ? header('location:addTreatment.php?status=100') : header('location:addTreatment.php');
+    }
+
+    if (isset($_GET['delTreatment'])) {
+        $id = $_GET['delTreatment'];
+        $delete = mysqli_query($naturopathyCon, "DELETE FROM `treatmentdata` WHERE `treatmentdata`.`id` = '$id'");
+        ($delete) ? header('location:addTreatment.php?status=101') : header('location:addTreatment.php');
+    }
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -15,7 +28,7 @@ if (isset($_SESSION['adminSessionActive'])) {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <title>Aarogyadham-Naturopathy-Yoga-Center | Patients Data Dashboard</title>
+        <title>Aarogyadham-Naturopathy-Yoga-Center | Administrator | Add Treatment</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
 
@@ -33,7 +46,6 @@ if (isset($_SESSION['adminSessionActive'])) {
         <link rel="stylesheet" href="../assets/css/style.css">
 
         <link rel="stylesheet" href="../assets/css/appstyle.css">
-
         <script type="text/javascript">
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
@@ -96,13 +108,13 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
-                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            <li class="active"><a href="addTreatment.php"><i class="feather-plus"></i><span class="shape1"></span><span class="shape2"></span> <span>Add Treatment</span></a>
                             </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <li class=""><a href="therapistData.php"><i class="feather-user"></i> <span>Therapist Data</span></a>
                             </li>
-                            <li class="active"><a href="patientsData.php"><i class="feather-users"></i> <span class="shape1"></span><span class="shape2"></span><span>Patients Data</span></a>
+                            <li class=""><a href="patientsData.php"><i class="feather-users"></i> <span>Patients Data</span></a>
                             </li>
                             <li class=""><a href="resetPass.php"><i class="feather-refresh-cw"></i> <span>Reset Password</span></a>
                             </li>
@@ -117,25 +129,26 @@ if (isset($_SESSION['adminSessionActive'])) {
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-between">
                                     <h5 class="card-title mb-0">Welcome, <?= $adminFullName; ?></h5>
+                                    <button class="btn btn-primary d-none d-lg-block" data-toggle="modal" data-target="#addTreatmentModal">Add New Treatment</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
+                            <!-- <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
                                 Please do not <b>Share these Passwords</b> with Anyone. <b>Keep it Confidential.</b>
                             </div>
                             <div class="alert alert-danger alert-dismissible fade show" style="font-size:1.15rem" role="alert">
-                                Only Share it with <b>Respective Patients</b> & ask them to<b> Reset there Passwords </b> once they Log In to their<b> Main Account.</b>
-                            </div>
+                                Only Share it with <b>Respective Therapist</b> & ask them to<b> Reset there Passwords </b> once they Log In to their<b> Main Account.</b>
+                            </div> -->
                         </div>
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Patients Data</h4>
+                                    <h4 class="card-title">Treatment List</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -143,34 +156,60 @@ if (isset($_SESSION['adminSessionActive'])) {
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Sr.</th>
-                                                    <th>Full Name</th>
-                                                    <th>RegdNo</th>
-                                                    <th>Gender</th>
-                                                    <th>Contact No.</th>
-                                                    <th>Password</th>
+                                                    <th>Treatment Name</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $output = '';
-                                                $count = 1;
-                                                while ($therapistDataArray = mysqli_fetch_array($therapistData)) {
-                                                    $output .= '<tr>';
-                                                    $output .= '<td>' . $count . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['fullName'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['regdNo'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['gender'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['phone'] . '</td>';
-                                                    $output .= '<td>' . $therapistDataArray['password'] . '</td>';
-                                                    $output .= '</tr>';
-                                                    $count++;
+                                                if (isset($treatmentData)) {
+                                                    $output = '';
+                                                    $count = 1;
+                                                    while ($treatmentDataArray = mysqli_fetch_array($treatmentData)) {
+                                                        $output .= '<tr>';
+                                                        $output .= '<td>' . $count . '</td>';
+                                                        $output .= '<td>' . $treatmentDataArray['name'] . '</td>';
+                                                        $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("addTreatment.php?delTreatment=' . $treatmentDataArray['id'] . '","_parent")>Delete</button></td>';
+                                                        $output .= '</tr>';
+                                                        $count++;
+                                                    }
+                                                    echo $output;
                                                 }
-                                                echo $output;
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="addTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Treatment Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST" action="">
+                                    <div class="modal-body">
+                                        <div class="loginbox">
+                                            <div class="login-right">
+                                                <div class="login-right-wrap">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="phoneno">Treatment Name</label>
+                                                        <input type="text" class="form-control" id="phoneno" name="name" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger mx-5" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success mx-5" name="addTreatment">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -202,8 +241,6 @@ if (isset($_SESSION['adminSessionActive'])) {
                     responsive: true,
                 });
             });
-
-            
         </script>
     </body>
 

@@ -9,7 +9,7 @@ if (isset($_SESSION['adminSessionActive'])) {
     $adminUserId = $_SESSION['adminUserId'];
     $patientUserId = $_GET['patientID'];
 
-    $activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId' LIMIT 1");
+    $activePatientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration` WHERE `id` = '$patientUserId'");
     $activePatientDataResult = mysqli_fetch_array($activePatientData);
     if ((mysqli_num_rows($activePatientData) == 0) && (!$_GET['centralView'])) {
         header('location:index.php');
@@ -18,10 +18,10 @@ if (isset($_SESSION['adminSessionActive'])) {
     $patientGender = $activePatientDataResult['gender'];
 
     $dataInserted = False;
-    $dataUpdated = False;
+    $dataUpdated = false;
     $updateData = False;
 
-    $recordDate = date('m-d-Y');
+    $recordDate = 'NA';
     $q1 = '';
     $q2 = '';
     $q3 = '';
@@ -45,8 +45,8 @@ if (isset($_SESSION['adminSessionActive'])) {
     for ($i = 1; $i <= 20; $i++) {
         $q19 .= '<tr>
                 <td>' . $i . '</td>
-                <td><input type="date" name="remarkTableDom[]" class="form-control" id=""></td>
-                <td><input type="text" name="remarkTableDom[]" class="form-control" id=""></td>
+                <td><input type="date" name="remarkTableDom[]" class="form-control" id="" disabled></td>
+                <td><input type="text" name="remarkTableDom[]" class="form-control" id="" disabled></td>
             </tr>';
     }
 
@@ -83,10 +83,10 @@ if (isset($_SESSION['adminSessionActive'])) {
         for ($i = 1; $i <= 20; $i++) {
             $q19update .= '<tr><td>' . $i . '</td>';
             $date = "$q19Array[$count]";
-            $q19update .= '<td><input type="date" name="remarkTableDom[]" value="' . $date . '" class="form-control" id=""></td>';
+            $q19update .= '<td><input type="date" name="remarkTableDom[]" value="' . $date . '" class="form-control" id="" disabled></td>';
             $count++;
             $pressure = "$q19Array[$count]";
-            $q19update .= '<td><input type="text" name="remarkTableDom[]" value="' . $pressure . '" class="form-control" id=""></td></tr>';
+            $q19update .= '<td><input type="text" name="remarkTableDom[]" value="' . $pressure . '" class="form-control" id="" disabled></td></tr>';
             $count++;
         }
         $q19update .= '</tbody>';
@@ -95,56 +95,6 @@ if (isset($_SESSION['adminSessionActive'])) {
         $updateDataId = $physicalExamDataArray['id'];
     }
 
-    if (isset($_POST['updateData'])) {
-        $q1 = $_POST['Q1'];
-        $q2 = $_POST['Q2'];
-        $q3 = $_POST['Q3'];
-        $q4 = $_POST['Q4'];
-        $q5 = $_POST['Q5'];
-        $q6 = $_POST['Q6'];
-        $q7 = $_POST['Q7'];
-        $q8 = $_POST['Q8'];
-        $q9 = $_POST['Q9'];
-        $q10 = $_POST['Q10'];
-        $q11 = $_POST['Q11'];
-        $q12 = $_POST['Q12'];
-        $q13 = $_POST['Q13'];
-        $q14 = $_POST['Q14'];
-        $q15 = $_POST['Q15'];
-        $q16 = $_POST['Q16'];
-        $q17 = $_POST['Q17'];
-        $q18 = $_POST['Q18'];
-        $q19 = json_encode($_POST['remarkTableDom']);
-        $q20 = $_POST['Q20'];
-        $updateSQL = mysqli_query($naturopathyCon, "UPDATE `physicalexamination` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6',`q7` = '$q7',`q8` = '$q8',`q9` = '$q9',`q10` = '$q10',`q11` = '$q11',`q12` = '$q12',`q13` = '$q13',`q14` = '$q14',`q15` = '$q15',`q16` = '$q16',`q17` = '$q17',`q18` = '$q18',`q19` = '$q19',`q20` = '$q20' WHERE `physicalexamination`.`id` = '$updateDataId'");
-        ($updateSQL) ? header('location:physicalExam.php?patientID=' . $patientUserId . '&status=101') : header('location:physicalExam.php?patientID=' . $patientUserId . '');
-    }
-
-    if (isset($_POST['submitData'])) {
-        $recordDate = date('m-d-Y');
-        $q1 = $_POST['Q1'];
-        $q2 = $_POST['Q2'];
-        $q3 = $_POST['Q3'];
-        $q4 = $_POST['Q4'];
-        $q5 = $_POST['Q5'];
-        $q6 = $_POST['Q6'];
-        $q7 = $_POST['Q7'];
-        $q8 = $_POST['Q8'];
-        $q9 = $_POST['Q9'];
-        $q10 = $_POST['Q10'];
-        $q11 = $_POST['Q11'];
-        $q12 = $_POST['Q12'];
-        $q13 = $_POST['Q13'];
-        $q14 = $_POST['Q14'];
-        $q15 = $_POST['Q15'];
-        $q16 = $_POST['Q16'];
-        $q17 = $_POST['Q17'];
-        $q18 = $_POST['Q18'];
-        $q19 = json_encode($_POST['remarkTableDom']);
-        $q20 = $_POST['Q20'];
-        $insertSQL = mysqli_query($naturopathyCon, "INSERT INTO `physicalexamination` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`, `q19`, `q20`) VALUES (NULL, '$patientUserId','$recordDate', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18', '$q19', '$q20')");
-        ($insertSQL) ? header('location:physicalExam.php?patientID=' . $patientUserId . '&status=100') : header('location:physicalExam.php?patientID=' . $patientUserId . '');
-    }
 
     $patientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
 
@@ -182,37 +132,18 @@ if (isset($_SESSION['adminSessionActive'])) {
         <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'marathi'
+                }, 'google_translate_element');
+            }
+        </script>
+
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     </head>
 
     <body>
-        <?php
-        if ($_GET['status'] == 100) {
-            echo "<script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Data Inserted!',
-            timer: 1500,
-            timerProgressBar: true,
-            showConfirmButton: false,
-        })
-    </script>";
-            $error = FALSE;
-        }
-
-        if ($_GET['status'] == 101) {
-            echo "<script>
-        Swal.fire({
-            icon: 'success',
-            title: 'Data Updated!',
-            timer: 1500,
-            timerProgressBar: true,
-            showConfirmButton: false,
-        })
-    </script>";
-            $error = FALSE;
-        }
-
-        ?>
         <div class="main-wrapper">
 
             <div class="header">
@@ -262,6 +193,8 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
+                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
@@ -279,7 +212,7 @@ if (isset($_SESSION['adminSessionActive'])) {
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-
+                <div id="google_translate_element"></div>
                     <!-- <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -299,7 +232,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center">
-                                    <h5 class="card-title mb-0">Physical Examination (To be Filled by Administrator)</h5>
+                                    <h5 class="card-title mb-0">Physical Examination (To be Filled by Therapist)</h5>
                                 </div>
                             </div>
                         </div>
@@ -376,13 +309,13 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                         <div class="form-group col-md-6">
                                                             <label class="" for="">Examination Date </label>
                                                             <div class="">
-                                                                <input type="date" class="form-control" value="<?= $q1 ?>" name="Q1">
+                                                                <input type="date" class="form-control" value="<?= $q1 ?>" name="Q1" disabled>
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="" for="">Height (cms)</label>
                                                             <div class="">
-                                                                <input type="text" class="form-control" value="<?= $q2 ?>" name="Q2" placeholder="">
+                                                                <input type="text" class="form-control" value="<?= $q2 ?>" name="Q2" placeholder="" disabled>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -391,13 +324,13 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                             <div class="col-md-6">
                                                                 <div class="">
                                                                     <label class="">Chest (After Inhalation) in cms</label>
-                                                                    <input type="text" class="form-control" value="<?= $q3 ?>" name="Q3">
+                                                                    <input type="text" class="form-control" value="<?= $q3 ?>" name="Q3" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="">
                                                                     <label class="">Chest (After Exhalation) in cms</label>
-                                                                    <input type="text" class="form-control" value="<?= $q4 ?>" name="Q4">
+                                                                    <input type="text" class="form-control" value="<?= $q4 ?>" name="Q4" disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -407,7 +340,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                     <div class="form-group">
                                                         <label class="" for="">Abdomen (Circumference) in cms</label>
                                                         <div class="">
-                                                            <input type="text" class="form-control" value="<?= $q5 ?>" name="Q5" placeholder="">
+                                                            <input type="text" class="form-control" value="<?= $q5 ?>" name="Q5" placeholder="" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-auto">
@@ -417,12 +350,12 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                                 <div class="row justify-content-start">
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Normal" name="Q6" required> Normal
+                                                                            <input type="radio" value="Normal" name="Q6" required disabled> Normal
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Flat" name="Q6" required> Flat
+                                                                            <input type="radio" value="Flat" name="Q6" required disabled> Flat
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -436,17 +369,17 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                                 <div class="row justify-content-start">
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Fat" name="Q7" required> Fat
+                                                                            <input type="radio" value="Fat" name="Q7" required disabled> Fat
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Medium" name="Q7" required> Medium
+                                                                            <input type="radio" value="Medium" name="Q7" required disabled> Medium
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Thin" name="Q7" required> Thin
+                                                                            <input type="radio" value="Thin" name="Q7" required disabled> Thin
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -460,17 +393,17 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                                 <div class="row justify-content-start">
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Vaat" name="Q8" required> Vaat
+                                                                            <input type="radio" value="Vaat" name="Q8" required disabled> Vaat
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Pitta" name="Q8" required> Pitta
+                                                                            <input type="radio" value="Pitta" name="Q8" required disabled> Pitta
                                                                         </label>
                                                                     </div>
                                                                     <div class="radio mx-2">
                                                                         <label>
-                                                                            <input type="radio" value="Kafa" name="Q8" required> Kafa
+                                                                            <input type="radio" value="Kafa" name="Q8" required disabled> Kafa
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -497,22 +430,22 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                         <div class="row">
                                                             <div class="col-md-6 pb-2">
                                                                 <label class="">Weight (Kg)</label>
-                                                                <input type="text" class="form-control" value="<?= $q9 ?>" name="Q9">
+                                                                <input type="text" class="form-control" value="<?= $q9 ?>" name="Q9" disabled>
                                                             </div>
                                                             <div class="col-md-6 pb-2">
                                                                 <label class="">Date</label>
-                                                                <input type="date" class="form-control" value="<?= $q10 ?>" name="Q10">
+                                                                <input type="date" class="form-control" value="<?= $q10 ?>" name="Q10" disabled>
                                                             </div>
                                                         </div>
                                                         <h5 class="card-title">Second</h5>
                                                         <div class="row">
                                                             <div class="col-md-6 pb-2">
                                                                 <label class="">Weight (Kg)</label>
-                                                                <input type="text" class="form-control" value="<?= $q11 ?>" name="Q11">
+                                                                <input type="text" class="form-control" value="<?= $q11 ?>" name="Q11" disabled>
                                                             </div>
                                                             <div class="col-md-6 pb-2">
                                                                 <label class="">Date</label>
-                                                                <input type="date" class="form-control" value="<?= $q12 ?>" name="Q12">
+                                                                <input type="date" class="form-control" value="<?= $q12 ?>" name="Q12" disabled>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -535,19 +468,19 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                             <div class="col-md-4 pb-2">
                                                                 <div class>
                                                                     <label class="">Pulse</label>
-                                                                    <input type="text" class="form-control" value="<?= $q13 ?>" name="Q13">
+                                                                    <input type="text" class="form-control" value="<?= $q13 ?>" name="Q13" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 pb-2">
                                                                 <div class="">
                                                                     <label class="">B.P</label>
-                                                                    <input type="text" class="form-control" value="<?= $q14 ?>" name="Q14">
+                                                                    <input type="text" class="form-control" value="<?= $q14 ?>" name="Q14" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 pb-2">
                                                                 <div class="">
                                                                     <label class="">Date</label>
-                                                                    <input type="date" class="form-control" value="<?= $q15 ?>" name="Q15">
+                                                                    <input type="date" class="form-control" value="<?= $q15 ?>" name="Q15" disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -556,19 +489,19 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                             <div class="col-md-4 pb-2">
                                                                 <div class="">
                                                                     <label class="">Pulse</label>
-                                                                    <input type="text" class="form-control" value="<?= $q16 ?>" name="Q16">
+                                                                    <input type="text" class="form-control" value="<?= $q16 ?>" name="Q16" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 pb-2">
                                                                 <div class="">
                                                                     <label class="">B.P</label>
-                                                                    <input type="text" class="form-control" value="<?= $q17 ?>" name="Q17">
+                                                                    <input type="text" class="form-control" value="<?= $q17 ?>" name="Q17" disabled>
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4 pb-2">
                                                                 <div class="">
                                                                     <label class="">Date</label>
-                                                                    <input type="date" class="form-control" value="<?= $q18 ?>" name="Q18">
+                                                                    <input type="date" class="form-control" value="<?= $q18 ?>" name="Q18" disabled>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -617,22 +550,12 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                 <div class="col-12">
                                                     <div class="form-group mb-0">
                                                         <label class="">Detailed Note</label>
-                                                        <textarea class="form-control" name="Q20" id="" rows="11"><?= $q20 ?></textarea>
+                                                        <textarea class="form-control" name="Q20" id="" rows="11" disabled><?= $q20 ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row justify-content-center pb-5">
-                                <div class="text-center">
-                                    <?php
-                                    if ($updateData) {
-                                        echo  '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
-                                    } else {
-                                        echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
-                                    } ?>
                                 </div>
                             </div>
                         </form>
@@ -716,12 +639,6 @@ if (isset($_SESSION['adminSessionActive'])) {
         </script>
 
         <script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
-            }
-        </script>
-
-        <script>
             $(document).ready(function() {
                 $('.table').DataTable({
                     "lengthMenu": [
@@ -731,6 +648,12 @@ if (isset($_SESSION['adminSessionActive'])) {
                     responsive: true,
                 });
             });
+        </script>
+
+        <script>
+            if (window.history.replaceState) {
+                window.history.replaceState(null, null, window.location.href);
+            }
         </script>
 
     </body>
