@@ -40,6 +40,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
     $q15 = '';
     $q16 = '';
     $q17 = '';
+    $q18 = '';
 
     $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -63,6 +64,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
         $q15 = $PSDResult['q15'];
         $q16 = $PSDResult['q16'];
         $q17 = $PSDResult['q17'];
+        $q18 = $PSDResult['q18'];
         $updateData = True;
         $UpdateDataId = $PSDResult['id'];
     }
@@ -191,8 +193,8 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                             </li>
                             <li class="active"><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span class="shape1"></span><span class="shape2"></span><span>Treatment Procedures</span></a>
                             </li>
-                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
-                            </li>
+                           <!-- <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li> -->
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
@@ -480,6 +482,23 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Important Instruction to the Patient</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mb-0">
+                                                        <label class="">Detailed Note</label>
+                                                        <textarea class="form-control" name="q18" id="" rows="11" disabled><?= $q18 ?></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="alert alert-success alert-dismissible fade show" style="font-size:1.15rem" role="alert">
                                         All the above <strong>Practices</strong> have been properly explained to me and I hereby
@@ -487,18 +506,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-center pb-5">
-                                <div class="text-center">
-                                    <?php
-                                    if ($updateData) {
-                                        echo '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
-                                    } else {
-                                        echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
-                                    }
-                                    ?>
-
-                                </div>
-                            </div>
+                            
                         </form>
                     <?php } else if (isset($_GET['centralView'])) { ?>
                         <div class="row">

@@ -140,8 +140,8 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
-                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
-                            </li>
+                           <!-- <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li> -->
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>

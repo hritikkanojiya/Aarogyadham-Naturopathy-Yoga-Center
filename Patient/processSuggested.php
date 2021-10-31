@@ -33,6 +33,7 @@ $q14 = '';
 $q15 = '';
 $q16 = '';
 $q17 = '';
+$q18 = '';
 
 $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -56,6 +57,7 @@ if (mysqli_num_rows($PSD) > 0) {
     $q15 = $PSDResult['q15'];
     $q16 = $PSDResult['q16'];
     $q17 = $PSDResult['q17'];
+    $q18 = $PSDResult['q18'];
     $updateData = True;
     $UpdateDataId = $PSDResult['id'];
 }
@@ -402,6 +404,23 @@ if (mysqli_num_rows($PSD) > 0) {
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Important Instruction to the Patient</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mb-0">
+                                                        <label class="">Detailed Note</label>
+                                                        <textarea class="form-control" name="q18" id="" rows="11" disabled><?= $q18 ?></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                         <div class="col-md-12">
                             <div class="alert alert-success alert-dismissible fade show" style="font-size:1.15rem" role="alert">
                                 All the above <strong>Practices</strong> have been properly explained to me and I hereby

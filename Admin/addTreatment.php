@@ -1,4 +1,6 @@
 <?php
+header('location:index.php');
+die();
 error_reporting(0);
 session_start();
 if (isset($_SESSION['adminSessionActive'])) {

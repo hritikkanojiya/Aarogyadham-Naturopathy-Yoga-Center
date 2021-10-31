@@ -40,6 +40,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
     $q15 = '';
     $q16 = '';
     $q17 = '';
+    $q18 = '';
 
     $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -63,6 +64,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q15 = $PSDResult['q15'];
         $q16 = $PSDResult['q16'];
         $q17 = $PSDResult['q17'];
+        $q18 = $PSDResult['q18'];
         $updateData = True;
         $UpdateDataId = $PSDResult['id'];
     }
@@ -86,7 +88,8 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q15 = $_POST['q15'];
         $q16 = $_POST['q16'];
         $q17 = $_POST['q17'];
-        $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17')";
+        $q18 = $_POST['q18'];
+        $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18')";
         $insertSQL = mysqli_query($naturopathyCon, $sql);
         ($insertSQL) ? header('location:processSuggested.php?status=100&patientID='.$patientUserId.'') : header('location:processSuggested.php?patientID='.$patientUserId.'');
     }
@@ -109,8 +112,9 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q15 = $_POST['q15'];
         $q16 = $_POST['q16'];
         $q17 = $_POST['q17'];
+        $q18 = $_POST['q18'];
 
-        $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
+        $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' , `q18` = '$q18' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
         $updateSQL = mysqli_query($naturopathyCon, $sql);
         ($updateSQL) ? header('location:processSuggested.php?status=101&patientID='.$patientUserId.'') : header('location:processSuggested.php?patientID='.$patientUserId.'');
     }
@@ -516,6 +520,23 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                                                 </ol>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Important Instruction to the Patient</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mb-0">
+                                                        <label class="">Detailed Note</label>
+                                                        <textarea class="form-control" name="q18" id="" rows="11"><?= $q18 ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
