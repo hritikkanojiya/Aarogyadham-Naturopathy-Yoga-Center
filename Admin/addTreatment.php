@@ -1,7 +1,5 @@
 <?php
-header('location:index.php');
-die();
-error_reporting(0);
+// error_reporting(0);
 session_start();
 if (isset($_SESSION['adminSessionActive'])) {
     include('../assets/php/db_conn.php');
@@ -9,18 +7,38 @@ if (isset($_SESSION['adminSessionActive'])) {
     $adminFullName = $_SESSION['adminFullName'];
     $adminUserId = $_SESSION['adminUserId'];
 
-    $treatmentData = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentdata` WHERE `is_delete` = 0");
+    $treatmentData = mysqli_query($naturopathyCon, "SELECT * FROM `main_treatment`");
+    $SubtreatmentData = mysqli_query($naturopathyCon, "SELECT * FROM `sub_treatment` ");
+    $treatmentDataSelect = mysqli_query($naturopathyCon, "SELECT * FROM `main_treatment` ");
 
-    if (isset($_POST['addTreatment'])) {
+    if (isset($_POST['addMainTreatment'])) {
         $name = $_POST['name'];
+        $randNo = mt_rand(000, 999) . date('s');
+        $treatmentID = 'MAINTM_' . $randNo;
+        $add = mysqli_query($naturopathyCon, "INSERT INTO `main_treatment` (`name`,`treatment_id`) VALUES ('$name','$treatmentID')");
+        ($add) ? header('location:addTreatment.php?status=100') : header('location:addTreatment.php');
+    }
 
-        $add = mysqli_query($naturopathyCon, "INSERT INTO `treatmentdata` (`id`, `name`, `is_delete`) VALUES (NULL, '$name', 0)");
+    if (isset($_POST['addSubTreatment'])) {
+        $name = $_POST['name'];
+        $dummy = explode('&&&', $_POST['mainTreatmentID']);
+        $mainID = $dummy[1];
+        $fkey = $dummy[0];
+        $randNo = mt_rand(000, 999) . date('s');
+        $treatmentID = 'SUBTM_' . $randNo;
+        $add = mysqli_query($naturopathyCon, "INSERT INTO `sub_treatment` (`id`, `fkey`,`main_treatment_id`, `treatment_id`, `name`) VALUES (NULL,'$fkey', '$mainID', '$treatmentID', '$name')");
         ($add) ? header('location:addTreatment.php?status=100') : header('location:addTreatment.php');
     }
 
     if (isset($_GET['delTreatment'])) {
         $id = $_GET['delTreatment'];
-        $delete = mysqli_query($naturopathyCon, "DELETE FROM `treatmentdata` WHERE `treatmentdata`.`id` = '$id'");
+        $delete = mysqli_query($naturopathyCon, "DELETE FROM `main_treatment` WHERE `main_treatment`.`id` = '$id'");
+        ($delete) ? header('location:addTreatment.php?status=101') : header('location:addTreatment.php');
+    }
+
+    if (isset($_GET['delSubTreatment'])) {
+        $id = $_GET['delSubTreatment'];
+        $delete = mysqli_query($naturopathyCon, "DELETE FROM `sub_treatment` WHERE `sub_treatment`.`id` = '$id'");
         ($delete) ? header('location:addTreatment.php?status=101') : header('location:addTreatment.php');
     }
 ?>
@@ -48,6 +66,7 @@ if (isset($_SESSION['adminSessionActive'])) {
         <link rel="stylesheet" href="../assets/css/style.css">
 
         <link rel="stylesheet" href="../assets/css/appstyle.css">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script type="text/javascript">
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
@@ -60,7 +79,34 @@ if (isset($_SESSION['adminSessionActive'])) {
     </head>
 
     <body>
+        <?php
+        if ($_GET['status'] == 100) {
+            echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Data Inserted!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+            $error = FALSE;
+        }
 
+        if ($_GET['status'] == 101) {
+            echo "<script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Record Deleted!',
+            timer: 1500,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        })
+    </script>";
+            $error = FALSE;
+        }
+
+        ?>
         <div class="main-wrapper">
 
             <div class="header">
@@ -127,13 +173,16 @@ if (isset($_SESSION['adminSessionActive'])) {
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-                <div id="google_translate_element"></div>
+                    <div id="google_translate_element"></div>
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
                                 <div class="d-flex align-items-center justify-content-between">
-                                    <h5 class="card-title mb-0">Welcome, <?= $adminFullName; ?></h5>
-                                    <button class="btn btn-primary d-none d-lg-block" data-toggle="modal" data-target="#addTreatmentModal">Add New Treatment</button>
+                                    <h5 class="card-title mb-0">Add Additional Treatments</h5>
+                                    <div class="row">
+                                        <button class="btn btn-primary mx-3 d-none d-lg-block" data-toggle="modal" data-target="#addMainTreatmentModal">Add Main-Treatment</button>
+                                        <button class="btn btn-primary mx-3 d-none d-lg-block" data-toggle="modal" data-target="#addSubTreatmentModal">Add Sub-Treatment</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +199,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">Treatment List</h4>
+                                    <h4 class="card-title">Main Treatment List</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -158,6 +207,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                                             <thead class="thead-dark">
                                                 <tr>
                                                     <th>Sr.</th>
+                                                    <th>Main Treatment ID</th>
                                                     <th>Treatment Name</th>
                                                     <th>Delete</th>
                                                 </tr>
@@ -170,6 +220,7 @@ if (isset($_SESSION['adminSessionActive'])) {
                                                     while ($treatmentDataArray = mysqli_fetch_array($treatmentData)) {
                                                         $output .= '<tr>';
                                                         $output .= '<td>' . $count . '</td>';
+                                                        $output .= '<td>' . $treatmentDataArray['treatment_id'] . '</td>';
                                                         $output .= '<td>' . $treatmentDataArray['name'] . '</td>';
                                                         $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("addTreatment.php?delTreatment=' . $treatmentDataArray['id'] . '","_parent")>Delete</button></td>';
                                                         $output .= '</tr>';
@@ -184,12 +235,53 @@ if (isset($_SESSION['adminSessionActive'])) {
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Sub Treatment List</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped mb-0">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th>Sr.</th>
+                                                    <th>Main Treatment ID</th>
+                                                    <th>Sub Treatment ID</th>
+                                                    <th>Treatment Name</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                if (isset($SubtreatmentData)) {
+                                                    $output = '';
+                                                    $count = 1;
+                                                    while ($treatmentDataArray = mysqli_fetch_array($SubtreatmentData)) {
+                                                        $output .= '<tr>';
+                                                        $output .= '<td>' . $count . '</td>';
+                                                        $output .= '<td>' . $treatmentDataArray['main_treatment_id'] . '</td>';
+                                                        $output .= '<td>' . $treatmentDataArray['treatment_id'] . '</td>';
+                                                        $output .= '<td>' . $treatmentDataArray['name'] . '</td>';
+                                                        $output .= '<td class="text-center"><button class="btn btn-danger" onclick=window.open("addTreatment.php?delSubTreatment=' . $treatmentDataArray['id'] . '","_parent")>Delete</button></td>';
+                                                        $output .= '</tr>';
+                                                        $count++;
+                                                    }
+                                                    echo $output;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal fade" id="addTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal fade" id="addMainTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Treatment Details</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Main Treatment Details</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -209,7 +301,50 @@ if (isset($_SESSION['adminSessionActive'])) {
                                     </div>
                                     <div class="modal-footer d-flex justify-content-center">
                                         <button type="button" class="btn btn-danger mx-5" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-success mx-5" name="addTreatment">Save changes</button>
+                                        <button type="submit" class="btn btn-success mx-5" name="addMainTreatment">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="addSubTreatmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Sub Treatment Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST" action="">
+                                    <div class="modal-body">
+                                        <div class="loginbox">
+                                            <div class="login-right">
+                                                <div class="login-right-wrap">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="phoneno">Treatment Name</label>
+                                                        <select class="form-control" name="mainTreatmentID" required>
+                                                            <option value="">Choose Main Treatment</option>
+                                                            <?php
+                                                            if (isset($treatmentDataSelect)) {
+                                                                while ($treatmentDataArray = mysqli_fetch_array($treatmentDataSelect)) {
+                                                                    echo '<option value="' . $treatmentDataArray['id'] . '&&&' . $treatmentDataArray['treatment_id'] . '">' . $treatmentDataArray['name'] . '</option>';
+                                                                }
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-control-label" for="phoneno">Treatment Name</label>
+                                                        <input type="text" class="form-control" id="phoneno" name="name" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger mx-5" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success mx-5" name="addSubTreatment">Submit</button>
                                     </div>
                                 </form>
                             </div>

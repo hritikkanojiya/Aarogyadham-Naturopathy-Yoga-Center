@@ -41,6 +41,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
     $q16 = '';
     $q17 = '';
     $q18 = '';
+    $addTreatmentData = '<h5 class="text-center">No Treatments Added</h5>';
 
     $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -65,6 +66,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
         $q16 = $PSDResult['q16'];
         $q17 = $PSDResult['q17'];
         $q18 = $PSDResult['q18'];
+        $addTreatmentData = $PSDResult['add_treatment'];
         $updateData = True;
         $UpdateDataId = $PSDResult['id'];
     }
@@ -117,7 +119,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
     </head>
 
     <body>
-    <?php
+        <?php
         if ($_GET['status'] == 100) {
             echo "<script>
         Swal.fire({
@@ -193,8 +195,8 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                             </li>
                             <li class="active"><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span class="shape1"></span><span class="shape2"></span><span>Treatment Procedures</span></a>
                             </li>
-                           <!-- <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
-                            </li> -->
+                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <!-- <li class=""><a href="profile.php"><i class="feather-user"></i> <span>My Profile</span></a>
@@ -212,7 +214,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-                <div id="google_translate_element"></div>
+                    <div id="google_translate_element"></div>
                     <!-- <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -482,6 +484,28 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h5 class="card-title d-inline">Additional Treatments</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mb-0">
+                                                        <div class="addTreatmentData" id="addTreatmentData">
+                                                            <?= $addTreatmentData ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-header">
@@ -506,7 +530,7 @@ if (isset($_SESSION['adminSessionActive']) && ((isset($_GET['patientID']) && $_G
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </form>
                     <?php } else if (isset($_GET['centralView'])) { ?>
                         <div class="row">

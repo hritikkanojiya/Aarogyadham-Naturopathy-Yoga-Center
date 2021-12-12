@@ -34,6 +34,8 @@ $q15 = '';
 $q16 = '';
 $q17 = '';
 $q18 = '';
+$addTreatmentData = '<h5 class="text-center">No Treatments Added</h5>';
+
 
 $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -58,6 +60,8 @@ if (mysqli_num_rows($PSD) > 0) {
     $q16 = $PSDResult['q16'];
     $q17 = $PSDResult['q17'];
     $q18 = $PSDResult['q18'];
+    $addTreatmentData = $PSDResult['add_treatment'];
+
     $updateData = True;
     $UpdateDataId = $PSDResult['id'];
 }
@@ -164,16 +168,16 @@ if (mysqli_num_rows($PSD) > 0) {
 
         <div class="page-wrapper">
             <div class="content container-fluid">
-            <script type="text/javascript">
-                        function googleTranslateElementInit() {
-                            new google.translate.TranslateElement({
-                                pageLanguage: 'marathi'
-                            }, 'google_translate_element');
-                        }
-                    </script>
+                <script type="text/javascript">
+                    function googleTranslateElementInit() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'marathi'
+                        }, 'google_translate_element');
+                    }
+                </script>
 
-                    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                    <div id="google_translate_element"></div>
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <div id="google_translate_element"></div>
                 <!-- <div class="page-header">
                     <div class="row align-items-center">
                         <div class="col-md-12">
@@ -404,23 +408,45 @@ if (mysqli_num_rows($PSD) > 0) {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Important Instruction to the Patient</h5>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="card-title d-inline">Additional Treatments</h5>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="form-group mb-0">
-                                                        <label class="">Detailed Note</label>
-                                                        <textarea class="form-control" name="q18" id="" rows="11" disabled><?= $q18 ?></textarea>
-                                                    </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group mb-0">
+                                                <div class="addTreatmentData" id="addTreatmentData">
+                                                    <?= $addTreatmentData ?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Important Instruction to the Patient</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group mb-0">
+                                                <label class="">Detailed Note</label>
+                                                <textarea class="form-control" name="q18" id="" rows="11" disabled><?= $q18 ?></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="alert alert-success alert-dismissible fade show" style="font-size:1.15rem" role="alert">
                                 All the above <strong>Practices</strong> have been properly explained to me and I hereby

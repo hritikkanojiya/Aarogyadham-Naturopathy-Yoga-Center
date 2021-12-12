@@ -41,6 +41,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
     $q16 = '';
     $q17 = '';
     $q18 = '';
+    $addTreatmentData = '<h5 class="text-center">No Treatments Added</h5>';
 
     $PSD = mysqli_query($naturopathyCon, "SELECT * FROM `treatmentprocedure` WHERE `treatmentprocedure`.`patientId`='$patientUserId' ORDER BY id DESC LIMIT 1");
 
@@ -65,6 +66,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q16 = $PSDResult['q16'];
         $q17 = $PSDResult['q17'];
         $q18 = $PSDResult['q18'];
+        $addTreatmentData = $PSDResult['add_treatment'];
         $updateData = True;
         $UpdateDataId = $PSDResult['id'];
     }
@@ -89,9 +91,13 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q16 = $_POST['q16'];
         $q17 = $_POST['q17'];
         $q18 = $_POST['q18'];
-        $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18')";
+        $addTreatmentData = $_POST['addTreatmentData'];
+
+        $sql = "INSERT INTO `treatmentprocedure` (`id`, `patientId`, `recordDate`,`q1`, `q2`, `q3`, `q4`, `q5`, `q6`, `q7`, `q8`, `q9`, `q10`, `q11`, `q12`, `q13`, `q14`, `q15`, `q16`, `q17`, `q18` ,`add_treatment`) VALUES (NULL, '$patientUserId', '$recordDate','$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12', '$q13', '$q14', '$q15', '$q16', '$q17', '$q18', '$addTreatmentData')";
         $insertSQL = mysqli_query($naturopathyCon, $sql);
-        ($insertSQL) ? header('location:processSuggested.php?status=100&patientID='.$patientUserId.'') : header('location:processSuggested.php?patientID='.$patientUserId.'');
+        // ($insertSQL) ? header('location:processSuggested.php?status=100&patientID=' . $patientUserId . '') : header('location:processSuggested.php?patientID=' . $patientUserId . '');
+        echo $insertSQL;
+        exit();
     }
 
     if (isset($_POST['updateData'])) {
@@ -113,11 +119,20 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         $q16 = $_POST['q16'];
         $q17 = $_POST['q17'];
         $q18 = $_POST['q18'];
+        $addTreatmentData = $_POST['addTreatmentData'];
 
-        $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' , `q18` = '$q18' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
+        $sql = "UPDATE `treatmentprocedure` SET `q1` = '$q1', `q2` = '$q2', `q3` = '$q3', `q4` = '$q4', `q5` = '$q5', `q6` = '$q6', `q7` = '$q7', `q8` = '$q8', `q9` = '$q9', `q10` = '$q10', `q11` = '$q11', `q12` = '$q12', `q13` = '$q13', `q14` = '$q14', `q15` = '$q15', `q16` = '$q16', `q17` = '$q17' , `q18` = '$q18' ,`add_treatment` = '$addTreatmentData' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'";
         $updateSQL = mysqli_query($naturopathyCon, $sql);
-        ($updateSQL) ? header('location:processSuggested.php?status=101&patientID='.$patientUserId.'') : header('location:processSuggested.php?patientID='.$patientUserId.'');
+        // ($updateSQL) ? header('location:processSuggested.php?status=101&patientID=' . $patientUserId . '') : header('location:processSuggested.php?patientID=' . $patientUserId . '');
+        echo $updateSQL;
+        exit();
     }
+
+    // if (isset($_POST['addMainTreatment'])) {
+    //     $data = $_POST['treatmentData'];
+    //     $updatequery = mysqli_query($naturopathyCon, "UPDATE `treatmentprocedure` SET `add_treatment` = '$data' WHERE `treatmentprocedure`.`id` = '$UpdateDataId'");
+    //     ($updatequery) ? header('location:processSuggested.php?status=101&patientID=' . $patientUserId . '') : header('location:processSuggested.php?patientID=' . $patientUserId . '');
+    // }
 
     $patientData = mysqli_query($naturopathyCon, "SELECT * FROM `patientregistration`");
 
@@ -134,6 +149,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         <title>Aarogyadham-Naturopathy-Yoga-Center | Treatment Process Suggested</title>
 
         <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo-favicon.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 
@@ -158,7 +174,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
     </head>
 
     <body>
-    <?php
+        <?php
         if ($_GET['status'] == 100) {
             echo "<script>
         Swal.fire({
@@ -186,6 +202,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         }
 
         ?>
+
         <div class="main-wrapper">
 
             <div class="header">
@@ -247,7 +264,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-                <script type="text/javascript">
+                    <script type="text/javascript">
                         function googleTranslateElementInit() {
                             new google.translate.TranslateElement({
                                 pageLanguage: 'marathi'
@@ -257,21 +274,6 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
 
                     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
                     <div id="google_translate_element"></div>
-                    <!-- <div class="page-header">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="d-flex align-items-center">
-                                <h5 class="page-title">Dashboard</h5>
-                                <ul class="breadcrumb ml-2">
-                                    <li class="breadcrumb-item"><a href="dashboard.php"><i class="fas fa-home"></i></a></li>
-                                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Health Questionnaire</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
@@ -290,7 +292,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                             <h5 class="card-title mb-0">Navigate</h5>
                                         </div>
                                         <div class="col-11">
-                                            <div class="row justify-content-between">
+                                            <div class="col">
                                                 <a href="recordsheet.php?patientID=<?= $_GET['patientID']; ?>">
                                                     <button type="button" class="btn btn-rounded btn-outline-primary">Record Sheet</button>
                                                 </a>
@@ -339,7 +341,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                 </div>
                             </div>
                         </div>
-                        <form action="" method="post">
+                        <form action="" method="post" id="mainForm">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card">
@@ -467,10 +469,10 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                                 <div class="col-12 homeMessage">
                                                     <div class="form-group">
                                                         Yognidra <input type="text" class="form-control" style="width:auto" name="q13" placeholder="" value="<?= $q13; ?>"> daily
-                                                        <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>" > Times. Before sleep Omkar Jap daily
-                                                        <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>" > minutes.
+                                                        <input type="text" class="form-control" name="q14" placeholder="" value="<?= $q14; ?>"> Times. Before sleep Omkar Jap daily
+                                                        <input type="text" class="form-control" name="q15" placeholder="" value="<?= $q15; ?>"> minutes.
                                                         <div class="" style="display: inline-block;">
-                                                            ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>" > times)
+                                                            ( <input type="text" class="form-control" style="height:35px;" name="q16" placeholder="" value="<?= $q16; ?>"> times)
                                                         </div>
                                                         hot foamatation after applying Sanjivan oil (Daily 2 times)
                                                     </div>
@@ -499,7 +501,7 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                                                     <li>Plenty of Fruits / Leafy vegetables soup.</li>
                                                                     <li>To consume more natural food.</li>
                                                                     <li><label class="">Yogamrit Daily </label>
-                                                                        <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>" > <label class=""> times (in lieu tea) </label>
+                                                                        <input type="text" class="form-control d-inline" style="width:70px; height:35px;" name="q17" value="<?= $q17; ?>"> <label class=""> times (in lieu tea) </label>
                                                                     </li>
                                                                 </ol>
                                                             </div>
@@ -519,6 +521,29 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                                                     <li>Potatos, Sweet Potatos, Sabudana Tea, Coffee</li>
                                                                 </ol>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h5 class="card-title d-inline">Additional Treatments</h5>
+                                                    <button type="button" class="btn btn-primary float-right mx-3 d-none d-lg-inline" onclick="getMainData()">Add Treatment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group mb-0">
+                                                        <div class="addTreatmentData" id="addTreatmentData">
+                                                            <?= $addTreatmentData ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -554,9 +579,9 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                                 <div class="text-center">
                                     <?php
                                     if ($updateData) {
-                                        echo '<button type="submit" class="btn btn-lg btn-primary" name="updateData">Update</button>';
+                                        echo '<button type="button" class="btn btn-lg btn-primary" id="updateData">Update</button>';
                                     } else {
-                                        echo '<button type="submit" class="btn btn-lg btn-primary" name="submitData">Submit</button>';
+                                        echo '<button type="button" class="btn btn-lg btn-primary" id="submitData">Submit</button>';
                                     }
                                     ?>
 
@@ -614,13 +639,32 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                     <?php } else {
                         header('location:index.php');
                     } ?>
+                    <div class="modal fade" id="addTreatmentModal" tabindex="-1" data-bs-backdrop="static" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Main Treatment Details</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST" action="" id="treatmentDataForm">
+                                    <div class="modal-body">
+                                        <div id="mainData"></div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger mx-5" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success mx-5" onclick="addTreatmentData()">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
-        </div>
-        </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <script src="../assets/js/bootstrap.bundle.min.js"></script>
 
         <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -640,6 +684,8 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
         </script>
 
         <script>
+            window.getMainDataFlag = false;
+
             $(document).ready(function() {
                 $('.table').DataTable({
                     "lengthMenu": [
@@ -648,10 +694,131 @@ if (isset($_SESSION['therapistSessionActive']) && ((isset($_GET['patientID']) &&
                     ],
                     responsive: true,
                 });
+
+                treatmentArray = [];
+
+                $(document).on('change', '.sub-treatment-switch', function() {
+                    var data = $(this).data('subhash');
+                    if ($(this).is(':checked')) {
+                        if (!treatmentArray.includes(data)) {
+                            treatmentArray.push(data);
+                        }
+                    } else {
+                        var dummyArray = treatmentArray.filter(function(f) {
+                            return f !== data
+                        });
+                        treatmentArray = dummyArray;
+                    }
+                    window.treatmentArrayData = treatmentArray;
+                })
+
+                $('#submitData').on('click', function() {
+                    // e.preventDefault();
+                    var addTreatmentData = $('#addTreatmentData').html();
+                    $.ajax({
+                        url: '',
+                        type: 'POST',
+                        data: $('#mainForm').serialize() + "&addTreatmentData=" + addTreatmentData + "&submitData=",
+                        success: function(response) {
+                            // window.location.reload();
+                            if (response) {
+                                window.open("processSuggested.php?status=100&patientID=<?= $patientUserId ?>", "_parent");
+                            } else {
+                                window.open("processSuggested.php?patientID=<?= $patientUserId ?>", "_parent");
+                            }
+                        }
+                    })
+                })
+
+                $('#updateData').on('click', function() {
+                    // e.preventDefault();
+                    var addTreatmentData = $('#addTreatmentData').html();
+                    $.ajax({
+                        url: '',
+                        type: 'POST',
+                        data: $('#mainForm').serialize() + "&addTreatmentData=" + addTreatmentData + "&updateData=",
+                        success: function(response) {
+                            // window.location.reload();
+                            if (response) {
+                                window.open("processSuggested.php?status=101&patientID=<?= $patientUserId ?>", "_parent");
+                            } else {
+                                window.open("processSuggested.php?patientID=<?= $patientUserId ?>", "_parent");
+                            }
+                        }
+                    })
+                })
             });
+
+            // $('#treatmentDataForm').on('submit', function(e) {
+            //     e.preventDefault();
+            //     itemData = $(this).serializeArray();
+            //     submitData = true;
+            //     $.ajax({
+            // url : 'processSuggested.php?patientID=<?php //$_GET['patientID']
+                                                        ?>',
+            //         type: 'POST',
+            //         data: {
+            //             submitData: submitData,
+            //             itemData: itemData
+            //         },
+            //         success: function() {
+            //             window
+            //         }
+            //     })
+            // })
+
+            function getMainData() {
+                treatmentArray = [];
+                let ajaxRequest = true;
+                let mainData = true;
+                $.ajax({
+                    url: '../assets/php/treatmentHandler.php',
+                    data: {
+                        ajaxRequest: ajaxRequest,
+                        mainData: mainData,
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        response = JSON.parse(response);
+                        if (response['status'] == 200) {
+                            window.getMainDataFlag = true;
+                            $('#mainData').html(response.html);
+                            $('#addTreatmentModal').modal('show');
+                        } else if (response['status'] == 201) {
+                            window.getMainDataFlag = false;
+                            alert(response.message);
+                        } else {
+                            window.getMainDataFlag = false;
+                            alert(response.message);
+                        }
+                    }
+                })
+            }
+
+            function addTreatmentData() {
+                // let main_treatment = $('.accordion-button[data-bs-toggle="collapse"][aria-expanded="true"]');
+                // main_treatment.forEach(element => {
+                //     console.log(this);
+                // });
+                let ajaxRequest = true;
+                let renderData = true;
+                let treatmentArray = window.treatmentArrayData;
+                $.ajax({
+                    url: '../assets/php/treatmentHandler.php',
+                    data: {
+                        ajaxRequest: ajaxRequest,
+                        renderData: renderData,
+                        treatmentArray: treatmentArray,
+                    },
+                    type: 'POST',
+                    success: function(response) {
+                        $('#addTreatmentData').html(response);
+                        $('#addTreatmentModal').modal('hide');
+                    }
+                })
+            }
         </script>
     </body>
-
 
     </html>
 <?php

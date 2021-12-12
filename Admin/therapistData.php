@@ -138,8 +138,8 @@ if (isset($_SESSION['adminSessionActive'])) {
                             </li>
                             <li class=""><a href="processSuggested.php?centralView=True"><i class="feather-list"></i> <span>Treatment Procedures</span></a>
                             </li>
-                           <!-- <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
-                            </li> -->
+                            <li class=""><a href="addTreatment.php"><i class="feather-plus"></i> <span>Add Treatment</span></a>
+                            </li>
                             <li class="menu-title"> <span>Account</span>
                             </li>
                             <li class="active"><a href="therapistData.php"><i class="feather-user"></i><span class="shape1"></span><span class="shape2"></span> <span>Therapist Data</span></a>
@@ -155,7 +155,7 @@ if (isset($_SESSION['adminSessionActive'])) {
 
             <div class="page-wrapper">
                 <div class="content container-fluid">
-                <div id="google_translate_element"></div>
+                    <div id="google_translate_element"></div>
                     <div class="page-header">
                         <div class="row align-items-center">
                             <div class="col-md-12">
